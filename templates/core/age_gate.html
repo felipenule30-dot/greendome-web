@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+{% load static %}
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Green Dome — Verificación de edad</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik+Bubbles&family=DM+Sans:opsz,wght@9..40,300;9..40,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/greendome.css' %}" />
+</head>
+<body class="age-gate-body">
+
+  <div class="age-gate-bg">
+    <div class="age-gate-particles" id="ageParticles"></div>
+  </div>
+
+  <div class="age-gate-container">
+    <div class="age-gate-logo">
+      
+      <img src="{% static 'img/logo.svg' %}" alt="Green Dome" class="age-gate-logo-img" />
+      <h1 class="logo-text">Green Dome</h1>
+      <p class="logo-sub">Sevilla · Asociación Cannábica</p>
+    </div>
+
+    <div class="age-gate-card" id="ageGateCard">
+      <p class="age-gate-question">¿Eres mayor de 18 años?</p>
+      <p class="age-gate-notice">Este sitio contiene información sobre cannabis. El acceso está restringido a mayores de edad conforme a la legislación española.</p>
+      <div class="age-gate-buttons">
+        <button class="btn-age btn-yes" id="btnYes">Sí, tengo +18</button>
+        <button class="btn-age btn-no" id="btnNo">No, soy menor</button>
+      </div>
+      <p class="age-gate-legal">Al confirmar, aceptas que tienes la edad legal requerida. Green Dome no se responsabiliza del acceso de menores de edad.</p>
+    </div>
+
+    {# Modal de registro #}
+    <div class="register-modal hidden" id="registerModal">
+      <div class="register-card">
+        <h2 class="register-title">Bienvenido a Green Dome</h2>
+        <p class="register-subtitle">Déjanos tu nombre y email para personalizar tu experiencia.</p>
+        <form id="registerForm" novalidate>
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" autocomplete="given-name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="tu@email.com" autocomplete="email" required />
+          </div>
+          <p class="form-error hidden" id="formError"></p>
+          <button type="submit" class="btn-register">Entrar a Green Dome</button>
+          <button type="button" class="btn-skip" id="btnSkip">Explorar sin registrarme</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const CSRF = document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
+
+    // Partículas simples en age gate
+    (function spawnParticles() {
+      const container = document.getElementById('ageParticles');
+      for (let i = 0; i < 30; i++) {
+        const p = document.createElement('span');
+        p.className = 'ag-particle';
+        p.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*8}s;animation-duration:${6+Math.random()*6}s;width:${2+Math.random()*4}px;height:${2+Math.random()*4}px;`;
+        container.appendChild(p);
+      }
+    })();
+
+    document.getElementById('btnYes').addEventListener('click', () => {
+      fetch("{% url 'age_gate_confirm' %}", {
+        method: 'POST',
+        headers: { 'X-CSRFToken': CSRF, 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'confirmed=yes'
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.ok) {
+          document.getElementById('ageGateCard').classList.add('fade-out');
+          setTimeout(() => {
+            document.getElementById('ageGateCard').classList.add('hidden');
+            document.getElementById('registerModal').classList.remove('hidden');
+            document.getElementById('registerModal').classList.add('fade-in');
+          }, 400);
+        }
+      });
+    });
+
+    document.getElementById('btnNo').addEventListener('click', () => {
+      fetch("{% url 'age_gate_confirm' %}", {
+        method: 'POST',
+        headers: { 'X-CSRFToken': CSRF, 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'confirmed=no'
+      })
+      .then(() => { window.location.href = "{% url 'access_denied' %}"; });
+    });
+
+    function goHome() { window.location.href = "{% url 'home' %}"; }
+
+    document.getElementById('btnSkip').addEventListener('click', goHome);
+
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const errEl = document.getElementById('formError');
+
+      if (!nombre || !email) {
+        errEl.textContent = 'Por favor completa todos los campos.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+      errEl.classList.add('hidden');
+
+      fetch("{% url 'register_member' %}", {
+        method: 'POST',
+        headers: { 'X-CSRFToken': CSRF, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, email })
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.ok) { goHome(); }
+        else {
+          errEl.textContent = data.error || 'Error al registrarse.';
+          errEl.classList.remove('hidden');
+        }
+      })
+      .catch(() => goHome());
+    });
+  </script>
+</body>
+</html>

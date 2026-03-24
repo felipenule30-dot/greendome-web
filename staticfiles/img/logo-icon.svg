@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 100" fill="none">
+  <path d="M10 95 C10 95 10 35 60 10 C110 35 110 95 110 95"
+        stroke="#7ed957" stroke-width="14" stroke-linecap="round" fill="none"
+        style="filter: drop-shadow(0 0 10px rgba(126,217,87,0.7))"/>
+  <path d="M34 95 C34 95 34 52 60 36 C86 52 86 95 86 95"
+        stroke="#7ed957" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.55"/>
+</svg>

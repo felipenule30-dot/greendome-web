@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Outer arch — thick stroke, rounded ends, like the brand logo -->
+  <path d="M18 185 L18 115 A82 82 0 0 1 182 115 L182 185"
+        stroke="#7ed957" stroke-width="20" fill="none"
+        stroke-linecap="round" filter="url(#glow)"/>
+  <!-- Inner arch cutout feel -->
+  <path d="M50 185 L50 122 A50 50 0 0 1 150 122 L150 185"
+        stroke="#7ed957" stroke-width="12" fill="none"
+        stroke-linecap="round" opacity="0.55"/>
+</svg>

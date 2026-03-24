@@ -1,0 +1,545 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{% if config.seo_title %}{{ config.seo_title }}{% else %}Green Dome — Club Cannábico · Asociación Cannabis Sevilla · Nervión{% endif %}{% endblock %}
+{% block meta_description %}{% if config.seo_description %}{{ config.seo_description }}{% else %}Green Dome: asociación cannábica sin ánimo de lucro en Sevilla (Nervión). Club social cannabis Sevilla, cultura cannábica, consumo responsable. Abrimos en noviembre 2025.{% endif %}{% endblock %}
+{% block meta_keywords %}{% if config.seo_keywords %}{{ config.seo_keywords }}{% else %}green dome, asociacion cannabica sevilla, club cannabico sevilla, club social cannabis sevilla, cannabis nervion, asociacion cannabis nervion, weed sevilla, marihuana sevilla, club privado cannabis sevilla, asociaciones cannabicas sevilla, asociaciones cannabicas andalucia, club cannabis sevilla centro, cannabis sevilla, green dome svq, asociacion marihuana sevilla, club de cannabis sevilla, comunidad cannabis sevilla, cultura cannabis sevilla, consumo responsable sevilla, tienda cannabis sevilla, cbd sevilla, hierba sevilla, cannabis andalucia, social club cannabis sevilla, asociacion cannabica nervion, club cannabis nervion, asociaciones nervion sevilla{% endif %}{% endblock %}
+{% block og_title %}Green Dome · Club Cannábico Sevilla — Asociación Cannabis Nervión{% endblock %}
+{% block og_description %}Green Dome: club cannábico sin ánimo de lucro en Sevilla (Nervión). Cultura, historia y comunidad. Abrimos noviembre 2025.{% endblock %}
+{% block tw_title %}Green Dome · Club Cannábico Sevilla{% endblock %}
+{% block tw_description %}Asociación cannábica sin ánimo de lucro en Sevilla, Nervión. Cultura, comunidad y consumo responsable. Desde 2025.{% endblock %}
+
+{% block body %}
+
+{# ─── JSON-LD: LocalBusiness + Organization + FAQ ─── #}
+<script type="application/ld+json">
+[
+{
+  "@context": "https://schema.org",
+  "@type": ["Organization", "LocalBusiness"],
+  "name": "Green Dome",
+  "alternateName": ["Green Dome Sevilla", "Club Cannábico Green Dome", "Asociación Cannábica Green Dome", "Green Dome SVQ"],
+  "description": "Green Dome es una asociación cannábica sin ánimo de lucro en Sevilla (barrio de Nervión). Club social de cannabis con foco en cultura, historia, consumo responsable y comunidad. Abierto desde noviembre 2025.",
+  "url": "https://greendome.com",
+  "logo": "https://greendome.com{% static 'img/logo.svg' %}",
+  "image": "https://greendome.com{% static 'img/og-image.jpg' %}",
+  "foundingDate": "2025-11",
+  "priceRange": "€",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Sevilla",
+    "addressRegion": "Andalucía",
+    "addressCountry": "ES",
+    "description": "Barrio de Nervión, Sevilla"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "37.3806919",
+    "longitude": "-5.9812485"
+  },
+  "hasMap": "https://www.google.com/maps/place/Asociaci%C3%B3n+Cann%C3%A1bica+Green+Dome/@37.3806919,-5.9812485,17z",
+  "sameAs": [
+    "https://www.instagram.com/greendome_svq"
+  ],
+  "email": "lacupulaverdesv@gmail.com",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "lacupulaverdesv@gmail.com",
+    "contactType": "customer support",
+    "availableLanguage": "Spanish"
+  },
+  "areaServed": [
+    { "@type": "City", "name": "Sevilla" },
+    { "@type": "Neighborhood", "name": "Nervión" },
+    { "@type": "State", "name": "Andalucía" }
+  ],
+  "keywords": "asociacion cannabica sevilla, club cannabico sevilla, cannabis nervion, club social cannabis sevilla, weed sevilla, marihuana sevilla, asociaciones cannabicas sevilla"
+},
+{% if config.seo_faq_json %}{{ config.seo_faq_json }}{% else %}{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"¿Qué es Green Dome?","acceptedAnswer":{"@type":"Answer","text":"Green Dome es una asociación cannábica sin ánimo de lucro en Sevilla (Nervión). Club social privado de cannabis. Abierto desde noviembre 2025."}},
+    {"@type":"Question","name":"¿Dónde está el club cannábico Green Dome?","acceptedAnswer":{"@type":"Answer","text":"En el barrio de Nervión, Sevilla. Club privado — dirección exacta para socios. Contacta: lacupulaverdesv@gmail.com o @greendome_svq."}},
+    {"@type":"Question","name":"¿Cómo unirme a una asociación cannábica en Sevilla?","acceptedAnswer":{"@type":"Answer","text":"Contacta a Green Dome por email, formulario web o Instagram @greendome_svq. Solo mayores de 18 años."}}
+  ]
+}{% endif %}
+]
+</script>
+
+{# ─── NAV ─── #}
+<nav class="gd-nav" id="gdNav">
+  <a href="#hero" class="nav-logo">
+    {# Logo Nav: usa logo_nav si existe, si no logo principal, si no el SVG por defecto #}
+    {% if config.logo_nav %}
+      <img src="{{ config.logo_nav.url }}" alt="Green Dome" class="nav-logo-img nav-logo-svg" />
+    {% elif config.logo %}
+      <img src="{{ config.logo.url }}" alt="Green Dome" class="nav-logo-img nav-logo-svg" />
+    {% else %}
+      <img src="{% static 'img/logo.svg' %}" alt="Green Dome" class="nav-logo-img nav-logo-svg" />
+    {% endif %}
+  </a>
+  <ul class="nav-links">
+    <li><a href="#quienes-somos">Quiénes somos</a></li>
+    <li><a href="#personajes">Personajes</a></li>
+    <li><a href="#mundo">Nuestro mundo</a></li>
+    <li><a href="#que-hacemos">Qué hacemos</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+{# ─── 1. HERO ─── #}
+<section class="hero" id="hero">
+  <video class="hero-video" autoplay muted loop playsinline poster="{% static 'img/hero-poster.jpg' %}">
+    <source src="{% static 'videos/hero.mp4' %}" type="video/mp4" />
+  </video>
+  <div class="hero-overlay"></div>
+  <canvas class="hero-particles" id="heroParticles"></canvas>
+
+  <div class="hero-blob"></div>
+
+  <div class="hero-content reveal">
+    <p class="hero-eyebrow">{{ config.eyebrow }}</p>
+    {% if config.logo %}
+      <img src="{{ config.logo.url }}" alt="Green Dome" class="hero-logo-img" />
+    {% else %}
+      <img src="{% static 'img/logo.svg' %}" alt="Green Dome" class="hero-logo-img" />
+    {% endif %}
+<p class="hero-tagline">{{ config.tagline }}</p>
+    <a href="#quienes-somos" class="hero-cta">{{ config.cta_texto }}</a>
+  </div>
+
+  <div class="hero-scroll-hint">
+    <span>scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+
+  {# Mascota flotante #}
+  <img src="{% static 'img/mascot-main.png' %}" 
+       alt="Mascota Green Dome" 
+       class="hero-mascot"
+       onerror="this.style.display='none'" />
+</section>
+
+{# ─── 2. QUIÉNES SOMOS ─── #}
+<section class="section-about" id="quienes-somos">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <span class="section-label">Quiénes somos</span>
+        <h2 class="section-title">{{ config.about_title }}</h2>
+        <p class="about-body">{{ config.about_texto_1 }}</p>
+        <p class="about-body">{{ config.about_texto_2 }}</p>
+        {# Texto SEO — indexable por Google, no intrusivo visualmente #}
+        <p class="seo-text">
+          Green Dome es el <strong>club cannábico de referencia en Sevilla</strong>, ubicado en el barrio de <strong>Nervión</strong>.
+          Somos una <strong>asociación cannábica sin ánimo de lucro</strong> fundada en noviembre de 2025.
+          Si buscas una <strong>asociación de cannabis en Sevilla</strong>, un <strong>club social de cannabis en Nervión</strong>
+          o simplemente quieres conocer la cultura cannábica en Andalucía, Green Dome es tu espacio.
+          No somos una tienda — somos una comunidad.
+        </p>
+      </div>
+      <div class="about-stats reveal">
+        <div class="stat-card">
+          <span class="stat-number">{{ config.stat_1_num }}</span>
+          <span class="stat-label">{{ config.stat_1_label }}</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">{{ config.stat_2_num }}</span>
+          <span class="stat-label">{{ config.stat_2_label }}</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">{{ config.stat_3_num }}</span>
+          <span class="stat-label">{{ config.stat_3_label }}</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">{{ config.stat_4_num }}</span>
+          <span class="stat-label">{{ config.stat_4_label }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ─── 3. PERSONAJES ─── #}
+<section class="section-personajes" id="personajes">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">La familia</span>
+      <h2 class="section-title">Los habitantes de la cúpula</h2>
+      <p class="section-subtitle">Cada uno tiene su rollo. Todos forman parte de Green Dome.</p>
+    </div>
+  </div>
+
+  <div class="personajes-scroll-wrap">
+    <div class="personajes-track">
+
+      {% for p in personajes %}
+      <div class="persona-card persona-card--img reveal">
+        <div class="persona-img-wrap" style="background: {{ p.bg_css }}">
+          {% if p.imagen %}
+            <img src="{{ p.imagen.url }}" alt="{{ p.nombre }}" class="persona-img" />
+          {% elif p.img_filename %}
+            <img src="{% static '' %}{{ p.img_filename }}" alt="{{ p.nombre }}" class="persona-img"
+                 onerror="this.parentElement.innerHTML='<span class=persona-emoji>🌿</span>'" />
+          {% else %}
+            <span class="persona-emoji">🌿</span>
+          {% endif %}
+        </div>
+        <div class="persona-info">
+          <span class="persona-tag" style="background:{{ p.tag_color }};color:{{ p.tag_txt }}">{{ p.tag }}</span>
+          <h3 class="persona-name">{{ p.nombre }}</h3>
+          <span class="persona-role">{{ p.rol }}</span>
+          <p class="persona-bio">{{ p.bio }}</p>
+        </div>
+      </div>
+      {% empty %}
+      {# Fallback — El Dome hardcoded si BD vacía #}
+      <div class="persona-card persona-card--img reveal" data-accent="#7ed957">
+        <div class="persona-img-wrap" style="background: radial-gradient(circle at 60% 30%, #5b3080, #2d1a45)">
+          <img src="{% static 'img/mascot-main.png' %}" alt="El Dome" class="persona-img" onerror="this.parentElement.innerHTML='<span class=persona-emoji>🌿</span>'" />
+        </div>
+        <div class="persona-info">
+          <span class="persona-tag" style="background:var(--green-bright);color:var(--purple-deep)">Mascota</span>
+          <h3 class="persona-name">El Dome</h3>
+          <span class="persona-role">La cara de Green Dome</span>
+          <p class="persona-bio">Peludo, tranquilo y con esa mirada que lo dice todo sin decir nada. El Dome es el espíritu del club: va a su ritmo, no le importa el ruido, y siempre está ahí.</p>
+        </div>
+      </div>
+
+      {# 2 — El Fundador #}
+      <div class="persona-card persona-card--img reveal" data-accent="#c9a84c">
+        <div class="persona-img-wrap" style="background: radial-gradient(circle at 40% 30%, #1a4a0e, #0d0a14)">
+          <img src="{% static 'img/char-fundador.png' %}" alt="El Fundador" class="persona-img" onerror="this.parentElement.innerHTML='<span class=persona-emoji>🧙</span>'" />
+        </div>
+        <div class="persona-info">
+          <span class="persona-tag" style="background:var(--gold);color:var(--purple-deep)">Fundador</span>
+          <h3 class="persona-name">El Fundador</h3>
+          <span class="persona-role">Visionario · Sevilla, 2025</span>
+          <p class="persona-bio">Manos en los bolsillos, cabeza clara. Soñó con un espacio propio en Sevilla donde la cultura tuviera un hogar. Y lo construyó desde cero, sin prisa y sin pausa.</p>
+        </div>
+      </div>
+
+      {# 3 — El Sabio #}
+      <div class="persona-card persona-card--img reveal" data-accent="#5db845">
+        <div class="persona-img-wrap" style="background: radial-gradient(circle at 50% 20%, #3d2565, #1a0d2e)">
+          <img src="{% static 'img/char-sabio.png' %}" alt="El Sabio" class="persona-img persona-img--right" onerror="this.parentElement.innerHTML='<span class=persona-emoji>🦯</span>'" />
+        </div>
+        <div class="persona-info">
+          <span class="persona-tag" style="background:#5db845;color:#0d0a14">Veterano</span>
+          <h3 class="persona-name">El Sabio</h3>
+          <span class="persona-role">Historia · Memoria viva</span>
+          <p class="persona-bio">Lleva el bastón pero no necesita apoyo. Lo ha visto todo, lo recuerda todo. Un dedo levantado suyo vale más que una conferencia entera. Escúchale.</p>
+        </div>
+      </div>
+
+      {# 4 — El Social #}
+      <div class="persona-card persona-card--img reveal" data-accent="#fd1d1d">
+        <div class="persona-img-wrap" style="background: radial-gradient(circle at 50% 30%, #0d3b2e, #061a14)">
+          <img src="{% static 'img/char-social.png' %}" alt="El Social" class="persona-img" onerror="this.parentElement.innerHTML='<span class=persona-emoji>😁</span>'" />
+        </div>
+        <div class="persona-info">
+          <span class="persona-tag" style="background:#e05c5c;color:#fff">Comunidad</span>
+          <h3 class="persona-name">El Social</h3>
+          <span class="persona-role">Alma del club · Siempre presente</span>
+          <p class="persona-bio">Camiseta de Green Dome, ojos bien abiertos y siempre con una sonrisa. Es el primero en llegar y el último en irse. El club late porque él late.</p>
+        </div>
+      </div>
+
+      {# 5 — El Zen #}
+      <div class="persona-card persona-card--img reveal" data-accent="#7b68ee">
+        <div class="persona-img-wrap" style="background: radial-gradient(circle at 50% 30%, #2d1a45, #0d0a14)">
+          <img src="{% static 'img/char-zen.png' %}" alt="El Zen" class="persona-img" onerror="this.parentElement.innerHTML='<span class=persona-emoji>😌</span>'" />
+        </div>
+        <div class="persona-info">
+          <span class="persona-tag" style="background:#7b68ee;color:#fff">Filosofía</span>
+          <h3 class="persona-name">El Zen</h3>
+          <span class="persona-role">Calma · Introspección</span>
+          <p class="persona-bio">Ojos entrecerrados, respiración lenta. Para él, el club es un espacio de reflexión. Habla poco, piensa mucho y cuando abre la boca merece la pena escuchar.</p>
+        </div>
+      </div>
+
+      {# 6 — El Artesano #}
+      <div class="persona-card persona-card--img reveal" data-accent="#c9a84c">
+        <div class="persona-img-wrap" style="background: radial-gradient(circle at 50% 20%, #0d3b2e, #061a14)">
+          <img src="{% static 'img/char-artesano.png' %}" alt="El Artesano" class="persona-img" onerror="this.parentElement.innerHTML='<span class=persona-emoji>🛠️</span>'" />
+        </div>
+        <div class="persona-info">
+          <span class="persona-tag" style="background:var(--gold);color:var(--purple-deep)">Oficio</span>
+          <h3 class="persona-name">El Artesano</h3>
+          <span class="persona-role">Precisión · Ritual</span>
+          <p class="persona-bio">Cada movimiento tiene su por qué. Metódico, cuidadoso, experto. Para él todo es un ritual que merece atención y respeto. El arte está en los detalles.</p>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+
+  {# Indicador de scroll horizontal #}
+  <div class="personajes-hint">
+    <span class="hint-line"></span>
+    <span class="hint-text">desliza</span>
+    <span class="hint-line"></span>
+  </div>
+</section>
+
+{# ─── 4. NUESTRO MUNDO ─── #}
+<section class="section-mundo" id="mundo">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">Nuestro mundo</span>
+      <h2 class="section-title">Green Dome Universe</h2>
+    </div>
+    <div class="mundo-grid">
+      {% for card in cards %}
+      <div class="mundo-card {{ card.color_class }} reveal">
+        {% if card.imagen %}
+          <div class="card-media">
+            <img src="{{ card.imagen.url }}" alt="{{ card.titulo }}" class="card-img" loading="lazy" />
+          </div>
+        {% else %}
+          <div class="card-icon">{{ card.icono }}</div>
+        {% endif %}
+        <h3 class="card-title">{{ card.titulo }}</h3>
+        <div class="card-hover-body"><p>{{ card.descripcion }}</p></div>
+      </div>
+      {% empty %}
+      <div class="mundo-card color-1 reveal"><div class="card-icon">📜</div><h3 class="card-title">Historia del Cannabis</h3><div class="card-hover-body"><p>Miles de años de historia humana entrelazada con esta planta.</p></div></div>
+      <div class="mundo-card color-2 reveal"><div class="card-icon">🏛️</div><h3 class="card-title">Clubes en España</h3><div class="card-hover-body"><p>El modelo asociativo español es único en el mundo.</p></div></div>
+      <div class="mundo-card color-3 reveal"><div class="card-icon">🌱</div><h3 class="card-title">Consumo Responsable</h3><div class="card-hover-body"><p>La información salva vidas.</p></div></div>
+      <div class="mundo-card color-4 reveal"><div class="card-icon">🎨</div><h3 class="card-title">Arte y Cultura</h3><div class="card-hover-body"><p>Celebramos el arte como expresión libre.</p></div></div>
+      <div class="mundo-card color-5 reveal"><div class="card-icon">🤝</div><h3 class="card-title">Comunidad</h3><div class="card-hover-body"><p>Green Dome son sus personas.</p></div></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{# ─── 5. QUÉ HACEMOS + TIMELINE ─── #}
+<section class="section-hacemos" id="que-hacemos">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">Actividad</span>
+      <h2 class="section-title">Qué hacemos</h2>
+    </div>
+    <div class="hacemos-grid">
+
+      <div class="actividades-list reveal">
+        {% for act in actividades %}
+        <div class="actividad-item">
+          <span class="actividad-num">{{ forloop.counter|stringformat:"02d" }}</span>
+          <div>
+            <h3>{{ act.titulo }}</h3>
+            <p>{{ act.descripcion }}</p>
+          </div>
+        </div>
+        {% empty %}
+        <div class="actividad-item"><span class="actividad-num">01</span><div><h3>Charlas y talleres educativos</h3><p>Sesiones abiertas sobre historia, ciencia y consumo responsable.</p></div></div>
+        {% endfor %}
+      </div>
+
+      <div class="timeline reveal">
+        <h3 class="timeline-title">Hitos del cannabis</h3>
+        {% for item in timeline %}
+        <div class="timeline-item{% if item.destacado %} timeline-item--gd{% endif %}">
+          <span class="tl-year">{{ item.año }}</span>
+          <p>{{ item.descripcion }}</p>
+        </div>
+        {% empty %}
+        <div class="timeline-item"><span class="tl-year">2025</span><p>Nace Green Dome en Sevilla.</p></div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{# ─── 6. CONTACTO ─── #}
+<section class="section-contacto" id="contacto">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">Encuéntranos</span>
+      <h2 class="section-title">Club cannábico en Sevilla · Nervión</h2>
+      <p class="contacto-desc-top">Green Dome es un club privado sin ánimo de lucro en el barrio de Nervión, Sevilla. Para información sobre membresía contáctanos directamente.</p>
+    </div>
+
+    <div class="contacto-grid-new">
+
+      {# ── Columna izquierda: info + botones sociales ── #}
+      <div class="contacto-info reveal">
+
+        <ul class="contacto-list">
+          <li>
+            <span class="contacto-icon">📧</span>
+            <a href="mailto:{{ config.email }}">{{ config.email }}</a>
+          </li>
+          <li>
+            <span class="contacto-icon">📍</span>
+            <span>Sevilla, Andalucía, España</span>
+          </li>
+        </ul>
+
+        {# ── Botones sociales ── #}
+        <div class="social-buttons">
+
+          {# Instagram #}
+          <a href="https://www.instagram.com/{{ config.instagram }}"
+             target="_blank" rel="noopener noreferrer"
+             class="social-btn instagram-btn">
+            <svg class="social-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/>
+            </svg>
+            <span>@{{ config.instagram }}</span>
+          </a>
+
+          {# WhatsApp #}
+          <a href="https://wa.me/{{ config.whatsapp|cut:'+' }}?text={{ config.whatsapp_msg|urlencode }}"
+             target="_blank" rel="noopener noreferrer"
+             class="social-btn whatsapp-btn">
+            <svg class="social-btn-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            <span>Escríbenos por WhatsApp</span>
+          </a>
+
+        </div>
+
+        {# ── Formulario ── #}
+        <div class="contacto-form-wrap">
+          <form class="contacto-form" id="contactoForm">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="contactNombre">Nombre</label>
+              <input type="text" id="contactNombre" name="nombre" placeholder="Tu nombre" required />
+            </div>
+            <div class="form-group">
+              <label for="contactEmail">Email</label>
+              <input type="email" id="contactEmail" name="email" placeholder="tu@email.com" required />
+            </div>
+            <div class="form-group">
+              <label for="contactMsg">Mensaje</label>
+              <textarea id="contactMsg" name="mensaje" rows="4" placeholder="¿En qué podemos ayudarte?"></textarea>
+            </div>
+            <button type="submit" class="btn-contact">Enviar mensaje</button>
+            <p class="form-success hidden" id="contactSuccess">¡Mensaje enviado! Te contactamos pronto.</p>
+          </form>
+        </div>
+
+      </div>
+
+      {# ── Columna derecha: Mapa ── #}
+      <div class="contacto-mapa reveal">
+        <div class="mapa-wrapper">
+          {# Google Maps embed — URL configurable desde admin en SiteConfig #}
+          <iframe
+            title="Green Dome — Sevilla, Nervión"
+            src="{{ config.maps_embed_url }}"
+            width="100%"
+            height="100%"
+            style="border:0;"
+            allowfullscreen=""
+            referrerpolicy="no-referrer-when-downgrade"
+            loading="lazy">
+          </iframe>
+        </div>
+
+        {# ── Botones de mapa ── #}
+        <div class="mapa-actions">
+          {% if config.maps_directions_url %}
+          <a href="{{ config.maps_directions_url }}"
+             target="_blank" rel="noopener noreferrer"
+             class="mapa-btn mapa-btn--directions">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+            </svg>
+            Cómo llegar
+          </a>
+          {% endif %}
+          {% if config.maps_review_url %}
+          <a href="{{ config.maps_review_url }}"
+             target="_blank" rel="noopener noreferrer"
+             class="mapa-btn mapa-btn--review">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            Dejar reseña
+          </a>
+          {% endif %}
+        </div>
+
+        <p class="mapa-disclaimer">
+          <span>📍</span> Sevilla, Andalucía · Ubicación exacta disponible para socios
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{# ─── FOOTER ─── #}
+<footer class="gd-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        {% if config.logo %}
+          <img src="{{ config.logo.url }}" alt="Green Dome" class="footer-logo-img footer-logo-svg" />
+        {% else %}
+          <img src="{% static 'img/logo.svg' %}" alt="Green Dome" class="footer-logo-img footer-logo-svg" />
+        {% endif %}
+      </div>
+      <p>Asociación cannábica sin ánimo de lucro.<br>Sevilla, España · Desde noviembre 2025.</p>
+    </div>
+    <div class="footer-links">
+      <a href="#quienes-somos">Quiénes somos</a>
+      <a href="#mundo">Nuestro mundo</a>
+      <a href="#personajes">Personajes</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/greendome_svq" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="https://wa.me/34600000000?text=Hola%20Green%20Dome%2C%20quiero%20información%20sobre%20membresía"
+         target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Green Dome · Asociación sin ánimo de lucro · Todos los derechos reservados</p>
+    <p class="footer-disclaimer">Este sitio no promueve el consumo de sustancias. La información es exclusivamente cultural y educativa.</p>
+  </div>
+</footer>
+
+{# ─── WHATSAPP FLOTANTE ─── #}
+<a href="https://wa.me/{{ config.whatsapp|cut:'+' }}?text={{ config.whatsapp_msg|urlencode }}"
+   target="_blank" rel="noopener noreferrer"
+   class="whatsapp-float"
+   aria-label="Escríbenos por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Contact form — simple feedback, no backend yet
+  document.getElementById('contactoForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const btn = this.querySelector('button[type=submit]');
+    btn.textContent = 'Enviando…';
+    btn.disabled = true;
+    setTimeout(() => {
+      document.getElementById('contactSuccess').classList.remove('hidden');
+      btn.textContent = 'Enviado ✓';
+    }, 800);
+  });
+</script>
+{% endblock %}

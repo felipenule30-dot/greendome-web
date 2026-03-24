@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m venv venv)",
+      "Bash(venv/Scripts/pip install:*)",
+      "Bash(venv/Scripts/django-admin startproject:*)",
+      "Bash(venv/Scripts/python manage.py startapp core)",
+      "Bash(venv/Scripts/python manage.py startapp analytics)",
+      "Bash(venv/Scripts/python manage.py startapp seo)",
+      "Bash(venv/Scripts/python -c \"from django.core.management.utils import get_random_secret_key; print\\(get_random_secret_key\\(\\)\\)\")",
+      "Bash(venv/Scripts/python manage.py check)",
+      "Bash(venv/Scripts/python manage.py migrate)",
+      "Bash(venv/Scripts/python manage.py runserver)",
+      "Bash(DJANGO_SUPERUSER_USERNAME=greendome25 DJANGO_SUPERUSER_EMAIL=lacupulaverdesv@gmail.com DJANGO_SUPERUSER_PASSWORD=GreenDome26 venv/Scripts/python manage.py createsuperuser --noinput)",
+      "Bash(venv/Scripts/python manage.py makemigrations core analytics)",
+      "Bash(venv/Scripts/python generate_gifs.py)",
+      "Bash(venv/Scripts/python manage.py collectstatic --noinput)",
+      "Bash(venv/Scripts/python generate_chars.py)",
+      "Bash(venv/Scripts/python manage.py makemigrations core)",
+      "Bash(venv/Scripts/python seed_data.py)",
+      "Bash(venv/Scripts/python -c \":*)",
+      "Bash(venv/Scripts/python manage.py check --deploy)",
+      "Bash(venv/Scripts/python -c \"from core.admin import *; print\\(''OK''\\)\")",
+      "Bash(venv/Scripts/python manage.py shell -c \":*)",
+      "Bash(venv/Scripts/python manage.py makemigrations core --name=\"siteconfig_logo_maps\")",
+      "Bash(venv/Scripts/python manage.py makemigrations core --name=\"siteconfig_logo_nav\")",
+      "Bash(curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt http://127.0.0.1:8000/age-gate/ -o /dev/null -w \"%{http_code}\")",
+      "Bash(curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt -X POST \"http://127.0.0.1:8000/age-gate/confirm/\" -H \"X-CSRFToken: test\" -d \"confirmed=yes\" -o /dev/null -w \" %{http_code}\")",
+      "Bash(curl -s http://127.0.0.1:8000/age-gate/ -c /tmp/jar.txt)",
+      "Bash(pkill -f \"manage.py runserver\")",
+      "Bash(venv/Scripts/python manage.py makemigrations core --name=\"siteconfig_seo_dynamic\")",
+      "Bash(venv/Scripts/python manage.py optimize_seo)",
+      "Bash(venv/Scripts/python manage.py collectstatic --noinput --clear)",
+      "Bash(start venv/Scripts/python manage.py runserver 8000)",
+      "Bash(curl -s http://127.0.0.1:8000/age-gate/ -o /dev/null -w \"age-gate: %{http_code}\")",
+      "Bash(curl -s http://127.0.0.1:8000/ -o /dev/null -w \" | home: %{http_code}\")",
+      "Bash(\"C:/Users/Windows 11/Desktop/Proyecto:*)",
+      "Bash(venv/Scripts/python manage.py makemigrations core --name mundocard_imagen)",
+      "Bash(taskkill /F /IM python.exe)"
+    ]
+  }
+}

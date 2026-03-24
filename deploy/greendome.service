@@ -1,0 +1,21 @@
+[Unit]
+Description=Green Dome Django — Gunicorn
+After=network.target
+
+[Service]
+User=greendome
+Group=www-data
+WorkingDirectory=/var/www/greendome
+EnvironmentFile=/var/www/greendome/.env
+ExecStart=/var/www/greendome/venv/bin/gunicorn \
+    --workers 3 \
+    --bind unix:/run/greendome.sock \
+    --access-logfile /var/log/greendome/access.log \
+    --error-logfile /var/log/greendome/error.log \
+    greendome.wsgi:application
+ExecReload=/bin/kill -s HUP $MAINPID
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
