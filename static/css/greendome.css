@@ -1464,3 +1464,13 @@ body:has(button:hover) .cursor-ring {
 .mundo-card:hover .card-img {
   transform: scale(1.06);
 }
+
+/* ── Hero fondo imagen (admin editable) ─────────────────────── */
+.hero-bg-img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}

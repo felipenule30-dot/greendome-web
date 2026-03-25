@@ -92,10 +92,14 @@
 </nav>
 
 {# ─── 1. HERO ─── #}
-<section class="hero" id="hero">
-  <video class="hero-video" autoplay muted loop playsinline poster="{% static 'img/hero-poster.jpg' %}">
-    <source src="{% static 'videos/hero.mp4' %}" type="video/mp4" />
-  </video>
+<section class="hero" id="hero"{% if config.hero_bg %} style="--hero-bg: url('{{ config.hero_bg.url }}')"{% endif %}>
+  {% if config.hero_bg %}
+    <div class="hero-bg-img" style="background-image: url('{{ config.hero_bg.url }}')"></div>
+  {% else %}
+    <video class="hero-video" autoplay muted loop playsinline poster="{% static 'img/hero-poster.jpg' %}">
+      <source src="{% static 'videos/hero.mp4' %}" type="video/mp4" />
+    </video>
+  {% endif %}
   <div class="hero-overlay"></div>
   <canvas class="hero-particles" id="heroParticles"></canvas>
 

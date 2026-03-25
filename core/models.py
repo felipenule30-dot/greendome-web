@@ -18,6 +18,11 @@ class SiteConfig(models.Model):
         help_text='Logo PEQUEÑO de la esquina superior izquierda. Puede ser solo el icono/arco sin texto. PNG con fondo transparente.'
     )
     # ── Hero ──────────────────────────────────────────────────────
+    hero_bg         = models.ImageField(
+        upload_to='branding/', blank=True, null=True,
+        verbose_name='Fondo del Hero',
+        help_text='Imagen o GIF de fondo del hero. Si no subes nada se usa el fondo oscuro por defecto. Recomendado: JPG/PNG ancho (1920x1080 mínimo).'
+    )
     tagline         = models.CharField(max_length=250, default='Cultura, comunidad y conocimiento.')
     eyebrow         = models.CharField(max_length=100, default='Sevilla · Noviembre 2025', help_text='Texto pequeño sobre el título del hero')
     cta_texto       = models.CharField(max_length=60,  default='Descúbrenos', help_text='Botón del hero')

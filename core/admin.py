@@ -24,7 +24,12 @@ class SiteConfigAdmin(admin.ModelAdmin):
             ),
         }),
         ('🏠  Hero', {
-            'fields': ('eyebrow', 'tagline', 'cta_texto'),
+            'fields': ('hero_bg', 'eyebrow', 'tagline', 'cta_texto'),
+            'description': (
+                '<strong>Fondo del Hero</strong>: imagen o GIF de fondo. '
+                'Recomendado JPG/PNG de al menos 1920x1080px. '
+                'Si no subes nada se mantiene el fondo oscuro por defecto.'
+            ),
         }),
         ('ℹ️  Quiénes somos', {
             'fields': ('about_title', 'about_texto_1', 'about_texto_2'),
