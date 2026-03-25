@@ -96,7 +96,7 @@
   {% if config.hero_bg %}
     <div class="hero-bg-img" style="background-image: url('{{ config.hero_bg.url }}')"></div>
   {% else %}
-    <video class="hero-video" autoplay muted loop playsinline poster="{% static 'img/hero-poster.jpg' %}">
+    <video class="hero-video" autoplay muted loop playsinline>
       <source src="{% static 'videos/hero.mp4' %}" type="video/mp4" />
     </video>
   {% endif %}
