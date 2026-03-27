@@ -1,3 +1,4 @@
+import re
 import json
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
@@ -5,10 +6,19 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from .models import Member, SiteConfig, Personaje, MundoCard, Actividad, TimelineItem
 
+_BOT_RE = re.compile(
+    r'(googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|facebot|twitterbot|linkedinbot|applebot)',
+    re.IGNORECASE,
+)
+
+def _is_bot(request):
+    ua = request.META.get('HTTP_USER_AGENT', '')
+    return bool(_BOT_RE.search(ua))
+
 
 def age_gate(request):
     """Pantalla de verificación de edad (+18)."""
-    if request.session.get('age_verified'):
+    if request.session.get('age_verified') or _is_bot(request):
         return redirect('home')
     return render(request, 'core/age_gate.html')
 
@@ -30,7 +40,7 @@ def access_denied(request):
 
 def home(request):
     """Página principal — requiere verificación de edad."""
-    if not request.session.get('age_verified'):
+    if not request.session.get('age_verified') and not _is_bot(request):
         return redirect('age_gate')
     ctx = {
         'config':     SiteConfig.load(),
