@@ -57,7 +57,7 @@
     { "@type": "State", "name": "Andalucía" }
   ]
 },
-{% if config.seo_faq_json %}{{ config.seo_faq_json }}{% else %}{
+{% if config.seo_faq_json %}{{ config.seo_faq_json|safe }}{% else %}{
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
