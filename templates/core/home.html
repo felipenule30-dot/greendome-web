@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}{% if config.seo_title %}{{ config.seo_title }}{% else %}Green Dome — Club Cannábico · Asociación Cannabis Sevilla · Nervión{% endif %}{% endblock %}
-{% block meta_description %}{% if config.seo_description %}{{ config.seo_description }}{% else %}Green Dome: asociación cannábica sin ánimo de lucro en Sevilla (Nervión). Club social cannabis Sevilla, cultura cannábica, consumo responsable. Abrimos en noviembre 2025.{% endif %}{% endblock %}
+{% block title %}{% if config.seo_title %}{{ config.seo_title }}{% else %}Club Cannábico Sevilla · Asociación Cannábica Nervión | Green Dome{% endif %}{% endblock %}
+{% block meta_description %}{% if config.seo_description %}{{ config.seo_description }}{% else %}Green Dome: club cannábico privado en Sevilla, barrio de Nervión. Autocultivo propio, productos de calidad, comunidad y educación cannábica. Asociación sin ánimo de lucro desde 2025.{% endif %}{% endblock %}
 {% block meta_keywords %}{% if config.seo_keywords %}{{ config.seo_keywords }}{% else %}green dome, asociacion cannabica sevilla, club cannabico sevilla, club social cannabis sevilla, cannabis nervion, asociacion cannabis nervion, weed sevilla, marihuana sevilla, club privado cannabis sevilla, asociaciones cannabicas sevilla, asociaciones cannabicas andalucia, club cannabis sevilla centro, cannabis sevilla, green dome svq, asociacion marihuana sevilla, club de cannabis sevilla, comunidad cannabis sevilla, cultura cannabis sevilla, consumo responsable sevilla, tienda cannabis sevilla, cbd sevilla, hierba sevilla, cannabis andalucia, social club cannabis sevilla, asociacion cannabica nervion, club cannabis nervion, asociaciones nervion sevilla{% endif %}{% endblock %}
 {% block og_title %}Green Dome · Club Cannábico Sevilla — Asociación Cannabis Nervión{% endblock %}
-{% block og_description %}Green Dome: club cannábico sin ánimo de lucro en Sevilla (Nervión). Cultura, historia y comunidad. Abrimos noviembre 2025.{% endblock %}
+{% block og_description %}Green Dome: club cannábico privado en Sevilla, Nervión. Autocultivo propio, comunidad y educación cannábica. Asociación sin ánimo de lucro desde 2025.{% endblock %}
 {% block tw_title %}Green Dome · Club Cannábico Sevilla{% endblock %}
 {% block tw_description %}Asociación cannábica sin ánimo de lucro en Sevilla, Nervión. Cultura, comunidad y consumo responsable. Desde 2025.{% endblock %}
 
@@ -19,18 +19,20 @@
   "@type": ["Organization", "LocalBusiness"],
   "name": "Green Dome",
   "alternateName": ["Green Dome Sevilla", "Club Cannábico Green Dome", "Asociación Cannábica Green Dome", "Green Dome SVQ"],
-  "description": "Green Dome es una asociación cannábica sin ánimo de lucro en Sevilla (barrio de Nervión). Club social de cannabis con foco en cultura, historia, consumo responsable y comunidad. Abierto desde noviembre 2025.",
-  "url": "https://greendome.net",
+  "description": "Green Dome es una asociación cannábica privada sin ánimo de lucro en Sevilla, barrio de Nervión. Club social de cannabis con productos de autocultivo propio, enfocado en comunidad, salud, educación y consumo responsable. Abierto desde noviembre 2025.",
+  "url": "https://greendome.net/",
   "logo": "https://greendome.net{% static 'img/logo.svg' %}",
   "image": "https://greendome.net{% static 'img/og-image.jpg' %}",
-  "foundingDate": "2025-11",
+  "foundingDate": "2025-11-01",
   "priceRange": "€",
+  "telephone": "+34681296703",
+  "email": "lacupulaverdesv@gmail.com",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Sevilla",
     "addressRegion": "Andalucía",
     "addressCountry": "ES",
-    "description": "Barrio de Nervión, Sevilla"
+    "addressArea": "Nervión"
   },
   "geo": {
     "@type": "GeoCoordinates",
@@ -39,29 +41,66 @@
   },
   "hasMap": "https://www.google.com/maps/place/Asociaci%C3%B3n+Cann%C3%A1bica+Green+Dome/@37.3806919,-5.9812485,17z",
   "sameAs": [
-    "https://www.instagram.com/greendomegd"
+    "https://www.instagram.com/greendomegd",
+    "https://www.google.com/maps/place/Asociaci%C3%B3n+Cann%C3%A1bica+Green+Dome/@37.3806919,-5.9812485,17z"
   ],
-  "email": "lacupulaverdesv@gmail.com",
   "contactPoint": {
     "@type": "ContactPoint",
+    "telephone": "+34681296703",
     "email": "lacupulaverdesv@gmail.com",
-    "contactType": "customer support",
+    "contactType": "customer service",
     "availableLanguage": "Spanish"
   },
   "areaServed": [
     { "@type": "City", "name": "Sevilla" },
     { "@type": "Neighborhood", "name": "Nervión" },
     { "@type": "State", "name": "Andalucía" }
-  ],
-  "keywords": "asociacion cannabica sevilla, club cannabico sevilla, cannabis nervion, club social cannabis sevilla, weed sevilla, marihuana sevilla, asociaciones cannabicas sevilla"
+  ]
 },
 {% if config.seo_faq_json %}{{ config.seo_faq_json }}{% else %}{
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {"@type":"Question","name":"¿Qué es Green Dome?","acceptedAnswer":{"@type":"Answer","text":"Green Dome es una asociación cannábica sin ánimo de lucro en Sevilla (Nervión). Club social privado de cannabis. Abierto desde noviembre 2025."}},
-    {"@type":"Question","name":"¿Dónde está el club cannábico Green Dome?","acceptedAnswer":{"@type":"Answer","text":"En el barrio de Nervión, Sevilla. Club privado — dirección exacta para socios. Contacta: lacupulaverdesv@gmail.com o @greendome_svq."}},
-    {"@type":"Question","name":"¿Cómo unirme a una asociación cannábica en Sevilla?","acceptedAnswer":{"@type":"Answer","text":"Contacta a Green Dome por email, formulario web o Instagram @greendome_svq. Solo mayores de 18 años."}}
+    {
+      "@type": "Question",
+      "name": "¿Qué es Green Dome Sevilla?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Green Dome es una asociación cannábica privada sin ánimo de lucro en Sevilla, en el barrio de Nervión. Somos un club social de cannabis con productos de autocultivo propio, enfocado en comunidad, salud, educación y consumo responsable. Abierto desde noviembre 2025."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Dónde está el club cannábico Green Dome en Sevilla?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Green Dome está ubicado en el barrio de Nervión, Sevilla. Al ser un club privado, la dirección exacta se facilita a los socios. Puedes contactar en lacupulaverdesv@gmail.com o por Instagram @greendomegd."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Cómo hacerme socio de una asociación cannábica en Sevilla?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Para asociarte a Green Dome contacta por email a lacupulaverdesv@gmail.com, por WhatsApp al +34681296703 o por Instagram @greendomegd. Requisitos: mayor de 18 años y residente en España."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Tiene Green Dome productos de autocultivo propios?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sí. Green Dome dispone de productos elaborados directamente en el club mediante autocultivo propio, garantizando la máxima calidad, trazabilidad y precios accesibles para sus socios."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Es legal un club cannábico en España?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Las asociaciones cannábicas en España operan bajo el modelo asociativo privado sin ánimo de lucro, en el marco del consumo privado entre socios adultos. Green Dome es una asociación legalmente constituida en Sevilla, Andalucía."
+      }
+    }
   ]
 }{% endif %}
 ]
@@ -141,10 +180,11 @@
         {# Texto SEO — indexable por Google, no intrusivo visualmente #}
         <p class="seo-text">
           Green Dome es el <strong>club cannábico de referencia en Sevilla</strong>, ubicado en el barrio de <strong>Nervión</strong>.
-          Somos una <strong>asociación cannábica sin ánimo de lucro</strong> fundada en noviembre de 2025.
+          Somos una <strong>asociación cannábica privada sin ánimo de lucro</strong> fundada en noviembre de 2025, con
+          <strong>productos de autocultivo propio</strong> de máxima calidad a precios accesibles.
           Si buscas una <strong>asociación de cannabis en Sevilla</strong>, un <strong>club social de cannabis en Nervión</strong>
-          o simplemente quieres conocer la cultura cannábica en Andalucía, Green Dome es tu espacio.
-          No somos una tienda — somos una comunidad.
+          o un espacio enfocado en la <strong>educación y consumo responsable del cannabis en Andalucía</strong>, Green Dome es tu lugar.
+          No somos una tienda — somos comunidad, salud y cultura.
         </p>
       </div>
       <div class="about-stats reveal">

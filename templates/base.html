@@ -11,14 +11,14 @@
   <title>{% block title %}Green Dome — Asociación Cannábica Sin Ánimo de Lucro · Sevilla{% endblock %}</title>
   <meta name="description" content="{% block meta_description %}Green Dome es una asociación cannábica sin ánimo de lucro en Sevilla, España. Cultura, historia, comunidad y consumo responsable desde 2025.{% endblock %}" />
   <meta name="keywords" content="{% block meta_keywords %}green dome, asociacion cannabica sevilla, club cannabico sevilla, club social cannabis sevilla, cannabis nervion sevilla, asociacion cannabis sevilla, weed sevilla, marihuana sevilla, club privado cannabis sevilla, asociaciones cannabicas sevilla, cannabis andalucia, club cannabis sevilla centro, green dome svq, asociacion marihuana sevilla, consumo responsable cannabis, cultura cannabis sevilla, tienda cannabis sevilla, cbd sevilla, hierba sevilla, social club cannabis sevilla{% endblock %}" />
-  <meta name="robots" content="{% block robots %}index, follow{% endblock %}" />
+  <meta name="robots" content="{% block robots %}index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1{% endblock %}" />
   <meta name="author" content="Green Dome" />
   <meta name="google-site-verification" content="LS3Dx14Nl7mf5BzxG1q6gaOrTF3fM7nqa8JHI4y15Xc" />
   <meta name="geo.region" content="ES-AN" />
   <meta name="geo.placename" content="Sevilla, Nervión" />
   <meta name="geo.position" content="37.3806919;-5.9812485" />
   <meta name="ICBM" content="37.3806919, -5.9812485" />
-  <link rel="canonical" href="{% block canonical %}https://greendome.net{% endblock %}" />
+  <link rel="canonical" href="{% block canonical %}https://greendome.net/{% endblock %}" />
 
   {# --- Open Graph (Facebook / WhatsApp / LinkedIn) --- #}
   <meta property="og:type" content="{% block og_type %}website{% endblock %}" />
@@ -29,8 +29,9 @@
   <meta property="og:image" content="{% block og_image %}https://greendome.net{% static 'img/og-image.jpg' %}{% endblock %}" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Green Dome — Asociación Cannábica Sevilla" />
-  <meta property="og:url" content="{% block og_url %}https://greendome.net{% endblock %}" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:alt" content="Green Dome — Club Cannábico Sevilla, Nervión" />
+  <meta property="og:url" content="{% block og_url %}https://greendome.net/{% endblock %}" />
 
   {# --- Twitter / X Card --- #}
   <meta name="twitter:card" content="summary_large_image" />
