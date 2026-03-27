@@ -168,7 +168,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ---------------------------------------------------------------------------
 
 META_SITE_PROTOCOL = config('META_SITE_PROTOCOL', default='https')
-META_SITE_DOMAIN = config('META_SITE_DOMAIN', default='greendome.com')
+META_SITE_DOMAIN = config('META_SITE_DOMAIN', default='greendome.net')
 META_SITE_NAME = 'Green Dome'
 META_USE_OG_PROPERTIES = True
 META_USE_TWITTER_PROPERTIES = True

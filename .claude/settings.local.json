@@ -36,7 +36,8 @@
       "Bash(curl -s http://127.0.0.1:8000/ -o /dev/null -w \" | home: %{http_code}\")",
       "Bash(\"C:/Users/Windows 11/Desktop/Proyecto:*)",
       "Bash(venv/Scripts/python manage.py makemigrations core --name mundocard_imagen)",
-      "Bash(taskkill /F /IM python.exe)"
+      "Bash(taskkill /F /IM python.exe)",
+      "WebFetch(domain:greendome.net)"
     ]
   }
 }
