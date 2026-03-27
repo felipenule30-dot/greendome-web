@@ -24,11 +24,9 @@ def robots_txt(request):
         'User-agent: *',
         'Disallow: /admin/',
         'Disallow: /api/',
-        'Disallow: /age-gate/',
-        'Allow: /',
         f'Sitemap: https://{settings.META_SITE_DOMAIN}/sitemap.xml',
     ]
-    return HttpResponse('\n'.join(lines), content_type='text/plain')
+    return HttpResponse('\n'.join(lines) + '\n', content_type='text/plain')
 
 
 urlpatterns = [
