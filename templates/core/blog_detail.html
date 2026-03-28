@@ -8,7 +8,8 @@
 {% block og_type %}article{% endblock %}
 {% block og_title %}{{ post.titulo }} — Green Dome{% endblock %}
 {% block og_description %}{{ post.resumen|truncatewords:30 }}{% endblock %}
-{% if post.imagen %}{% block og_image %}https://greendome.net{{ post.imagen.url }}{% endblock %}{% endif %}
+{% block og_image %}{% if post.imagen %}https://greendome.net{{ post.imagen.url }}{% else %}https://greendome.net{% static 'img/og-image.jpg' %}{% endif %}{% endblock %}
+{% block tw_image %}{% if post.imagen %}https://greendome.net{{ post.imagen.url }}{% else %}https://greendome.net{% static 'img/og-image.jpg' %}{% endif %}{% endblock %}
 {% block og_url %}https://greendome.net{{ post.get_absolute_url }}{% endblock %}
 
 {% block body %}
