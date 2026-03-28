@@ -1,6 +1,8 @@
 """
 Corrige el slug del artículo de la prohibición del cannabis:
 elimina el carácter acentuado 'ó' que Django's <slug:slug> no acepta (solo ASCII).
+El slug ya fue corregido en el servidor vía shell — esta migración lo garantiza
+en despliegues futuros y para consistencia del historial.
 """
 from django.db import migrations
 
@@ -21,7 +23,7 @@ def revert_slug(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0010_blogimage'),
+        ('core', '0011_alter_blogimage_imagen'),
     ]
 
     operations = [
