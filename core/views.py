@@ -1,25 +1,12 @@
-import re
 import json
 from django.shortcuts import render, redirect
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-from django.views.decorators.csrf import csrf_exempt
 from .models import Member, SiteConfig, Personaje, MundoCard, Actividad, TimelineItem
-
-_BOT_RE = re.compile(
-    r'(googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|facebot|twitterbot|linkedinbot|applebot)',
-    re.IGNORECASE,
-)
-
-def _is_bot(request):
-    ua = request.META.get('HTTP_USER_AGENT', '')
-    return bool(_BOT_RE.search(ua))
 
 
 def age_gate(request):
-    """Pantalla de verificación de edad (+18)."""
-    if request.session.get('age_verified') or _is_bot(request):
-        return redirect('home')
+    """Pantalla de verificación de edad — acceso directo a /age-gate/."""
     return render(request, 'core/age_gate.html')
 
 

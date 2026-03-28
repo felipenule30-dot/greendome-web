@@ -139,19 +139,26 @@
     }
   }
 
+  let animating = true;
   function draw() {
+    if (!animating) return;
     ctx.clearRect(0, 0, W, H);
     particles.forEach(p => {
       p.x    += p.vx;
       p.y    += p.vy;
       p.life += .0025;
-
       if (p.y < -10 || p.life > 1) Object.assign(p, mkParticle(), { y: H + 5 });
       drawParticle(p);
     });
     ctx.globalAlpha = 1;
     requestAnimationFrame(draw);
   }
+
+  // Pausar cuando la pestaña no es visible — ahorra CPU/batería
+  document.addEventListener('visibilitychange', () => {
+    animating = !document.hidden;
+    if (animating) draw();
+  });
 
   window.addEventListener('resize', resize, { passive: true });
   init();

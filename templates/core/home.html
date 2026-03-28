@@ -167,7 +167,7 @@ function gdAgeNo(){
   {% if config.hero_bg %}
     <div class="hero-bg-img" style="background-image: url('{{ config.hero_bg.url }}')"></div>
   {% else %}
-    <video class="hero-video" autoplay muted loop playsinline>
+    <video class="hero-video" autoplay muted loop playsinline preload="metadata">
       <source src="{% static 'videos/hero.mp4' %}" type="video/mp4" />
     </video>
   {% endif %}
@@ -260,9 +260,9 @@ function gdAgeNo(){
       <div class="persona-card persona-card--img reveal">
         <div class="persona-img-wrap" style="background: {{ p.bg_css }}">
           {% if p.imagen %}
-            <img src="{{ p.imagen.url }}" alt="{{ p.nombre }}" class="persona-img" />
+            <img src="{{ p.imagen.url }}" alt="{{ p.nombre }}" class="persona-img" loading="lazy" decoding="async" />
           {% elif p.img_filename %}
-            <img src="{% static '' %}{{ p.img_filename }}" alt="{{ p.nombre }}" class="persona-img"
+            <img src="{% static '' %}{{ p.img_filename }}" alt="{{ p.nombre }}" class="persona-img" loading="lazy" decoding="async"
                  onerror="this.parentElement.innerHTML='<span class=persona-emoji>🌿</span>'" />
           {% else %}
             <span class="persona-emoji">🌿</span>
