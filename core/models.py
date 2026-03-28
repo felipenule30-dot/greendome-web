@@ -170,6 +170,62 @@ class TimelineItem(models.Model):
         return f'{self.año} — {self.descripcion[:50]}'
 
 
+# ── Blog ─────────────────────────────────────────────────────────
+
+
+class BlogPost(models.Model):
+    """Artículos del blog de Green Dome."""
+    titulo      = models.CharField(max_length=200, verbose_name='Título')
+    slug        = models.SlugField(max_length=220, unique=True,
+                    help_text='URL amigable (auto-generado si se deja vacío). Ej: cannabis-club-sevilla-guia')
+    resumen     = models.TextField(verbose_name='Resumen / Intro',
+                    help_text='1-2 frases que aparecen en la lista del blog y en la meta description.')
+    contenido   = models.TextField(verbose_name='Contenido',
+                    help_text='HTML o texto plano. Puedes usar etiquetas <h2>, <p>, <ul>, etc.')
+    imagen      = models.ImageField(upload_to='blog/', blank=True, null=True,
+                    verbose_name='Imagen de portada',
+                    help_text='Recomendado: 1200x630px JPG (proporción OG).')
+    autor       = models.CharField(max_length=100, default='Green Dome', verbose_name='Autor')
+    publicado   = models.BooleanField(default=False,
+                    verbose_name='Publicado',
+                    help_text='Solo los artículos publicados son visibles en la web.')
+    fecha_pub   = models.DateTimeField(verbose_name='Fecha de publicación',
+                    help_text='Fecha que se muestra en el artículo y en el sitemap.')
+    creado_en   = models.DateTimeField(auto_now_add=True)
+    actualizado = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Artículo del blog'
+        verbose_name_plural = 'Blog — Artículos'
+        ordering = ['-fecha_pub']
+
+    def __str__(self):
+        return self.titulo
+
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('blog_detail', kwargs={'slug': self.slug})
+
+
+# ── FAQ ──────────────────────────────────────────────────────────
+
+
+class FAQItem(models.Model):
+    """Preguntas frecuentes para la página /faq/."""
+    pregunta    = models.CharField(max_length=300, verbose_name='Pregunta')
+    respuesta   = models.TextField(verbose_name='Respuesta')
+    orden       = models.PositiveSmallIntegerField(default=0)
+    activo      = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = 'Pregunta frecuente'
+        verbose_name_plural = 'FAQ — Preguntas frecuentes'
+        ordering = ['orden']
+
+    def __str__(self):
+        return self.pregunta
+
+
 # ── Registro de miembros ─────────────────────────────────────────
 
 

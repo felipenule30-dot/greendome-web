@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.html import format_html
-from .models import Member, SiteConfig, Personaje, MundoCard, Actividad, TimelineItem
+from .models import Member, SiteConfig, Personaje, MundoCard, Actividad, TimelineItem, BlogPost, FAQItem
 
 
 # ── SiteConfig (singleton) ────────────────────────────────────────
@@ -161,6 +161,36 @@ class TimelineItemAdmin(admin.ModelAdmin):
     @admin.display(description='Descripcion')
     def desc_corta(self, obj):
         return obj.descripcion[:80] + ('...' if len(obj.descripcion) > 80 else '')
+
+
+# ── Blog ──────────────────────────────────────────────────────────
+@admin.register(BlogPost)
+class BlogPostAdmin(admin.ModelAdmin):
+    list_display       = ('titulo', 'autor', 'publicado', 'fecha_pub')
+    list_display_links = ('titulo',)
+    list_editable      = ('publicado',)
+    list_filter        = ('publicado', 'fecha_pub')
+    search_fields      = ('titulo', 'resumen', 'contenido')
+    prepopulated_fields = {'slug': ('titulo',)}
+    save_on_top        = True
+    fieldsets = (
+        ('Contenido', {
+            'fields': ('titulo', 'slug', 'resumen', 'contenido', 'imagen'),
+        }),
+        ('Publicación', {
+            'fields': ('autor', 'publicado', 'fecha_pub'),
+        }),
+    )
+
+
+# ── FAQ ───────────────────────────────────────────────────────────
+@admin.register(FAQItem)
+class FAQItemAdmin(admin.ModelAdmin):
+    list_display       = ('orden', 'pregunta', 'activo')
+    list_display_links = ('pregunta',)
+    list_editable      = ('orden', 'activo')
+    search_fields      = ('pregunta', 'respuesta')
+    save_on_top        = True
 
 
 # ── Members ───────────────────────────────────────────────────────

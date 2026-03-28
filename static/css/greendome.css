@@ -198,6 +198,8 @@ body:has(button:hover) .cursor-ring {
 }
 .nav-links a:hover { color: var(--green-bright); }
 .nav-links a:hover::after { transform: scaleX(1); }
+.nav-links a.nav-active { color: var(--green-bright); }
+.nav-links a.nav-active::after { transform: scaleX(1); }
 
 .nav-hamburger {
   display: none;
@@ -1485,4 +1487,24 @@ body:has(button:hover) .cursor-ring {
   background-position: center center;
   background-repeat: no-repeat;
   z-index: 0;
+}
+
+
+/* ── Blog content styles ─────────────────────────────────────── */
+.blog-content h2 { color: #fff; font-size: 1.5rem; margin: 2.5rem 0 1rem; }
+.blog-content h3 { color: #e0e0e0; font-size: 1.2rem; margin: 2rem 0 .75rem; }
+.blog-content p  { margin-bottom: 1.4rem; color: #ccc; line-height: 1.8; }
+.blog-content ul,
+.blog-content ol { margin: 0 0 1.4rem 1.5rem; color: #ccc; line-height: 1.8; }
+.blog-content li { margin-bottom: .5rem; }
+.blog-content strong { color: #7ed957; }
+.blog-content a  { color: #7ed957; }
+.blog-content blockquote {
+  border-left: 3px solid #7ed957;
+  margin: 2rem 0;
+  padding: .75rem 1.25rem;
+  color: #aaa;
+  font-style: italic;
+  background: rgba(126,217,87,.04);
+  border-radius: 0 8px 8px 0;
 }

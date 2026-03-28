@@ -5,10 +5,11 @@ from django.http import HttpResponse
 from django.conf import settings
 from django.conf.urls.static import static
 
-from core.sitemaps import StaticViewSitemap
+from core.sitemaps import StaticViewSitemap, BlogSitemap
 
 sitemaps = {
     'static': StaticViewSitemap,
+    'blog':   BlogSitemap,
 }
 
 

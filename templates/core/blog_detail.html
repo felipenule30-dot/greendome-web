@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ post.titulo }} | Green Dome — Cannabis Club Sevilla{% endblock %}
+{% block meta_description %}{{ post.resumen|truncatewords:25 }}{% endblock %}
+{% block meta_keywords %}{{ post.titulo|lower }}, cannabis club sevilla, green dome blog, cultura cannabis sevilla{% endblock %}
+{% block canonical %}https://greendome.net{{ post.get_absolute_url }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_title %}{{ post.titulo }} — Green Dome{% endblock %}
+{% block og_description %}{{ post.resumen|truncatewords:30 }}{% endblock %}
+{% if post.imagen %}{% block og_image %}https://greendome.net{{ post.imagen.url }}{% endblock %}{% endif %}
+{% block og_url %}https://greendome.net{{ post.get_absolute_url }}{% endblock %}
+
+{% block body %}
+
+{# Age Gate Overlay #}
+<div id="ageGateOverlay" style="display:none;position:fixed;inset:0;z-index:99999;background:#0d0a14;align-items:center;justify-content:center;flex-direction:column;">
+  <div style="text-align:center;padding:2rem;max-width:420px;">
+    <img src="{% static 'img/logo.svg' %}" alt="Green Dome" style="width:80px;margin-bottom:1.5rem;" />
+    <h1 style="color:#7ed957;font-size:1.8rem;margin-bottom:.5rem;">Green Dome</h1>
+    <p style="color:#aaa;margin-bottom:.5rem;">Sevilla · Asociación Cannábica</p>
+    <p style="color:#fff;font-size:1.1rem;margin:1.5rem 0;">¿Eres mayor de 18 años?</p>
+    <p style="color:#888;font-size:.85rem;margin-bottom:2rem;">Este sitio contiene información sobre cannabis. El acceso está restringido a mayores de edad conforme a la legislación española.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;">
+      <button onclick="gdAgeYes()" style="background:#7ed957;color:#0d0a14;border:none;padding:.9rem 2.5rem;border-radius:50px;font-size:1rem;font-weight:700;cursor:pointer;">Sí, tengo +18</button>
+      <button onclick="gdAgeNo()" style="background:transparent;color:#fff;border:2px solid #444;padding:.9rem 2.5rem;border-radius:50px;font-size:1rem;cursor:pointer;">No, soy menor</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  if(!localStorage.getItem('gd_age_ok')){
+    var o=document.getElementById('ageGateOverlay');
+    o.style.display='flex';
+    document.body.style.overflow='hidden';
+  }
+})();
+function gdAgeYes(){
+  localStorage.setItem('gd_age_ok','1');
+  document.getElementById('ageGateOverlay').style.display='none';
+  document.body.style.overflow='';
+}
+function gdAgeNo(){ window.location.href='/acceso-denegado/'; }
+</script>
+
+{# JSON-LD: Article + BreadcrumbList #}
+<script type="application/ld+json">
+[
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"Inicio","item":"https://greendome.net/"},
+    {"@type":"ListItem","position":2,"name":"Blog","item":"https://greendome.net/blog/"},
+    {"@type":"ListItem","position":3,"name":"{{ post.titulo|escapejs }}","item":"https://greendome.net{{ post.get_absolute_url }}"}
+  ]
+},
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{ post.titulo|escapejs }}",
+  "description": "{{ post.resumen|escapejs }}",
+  "author": {"@type":"Organization","name":"{{ post.autor|escapejs }}"},
+  "publisher": {
+    "@type": "Organization",
+    "name": "Green Dome",
+    "logo": {"@type":"ImageObject","url":"https://greendome.net{% static 'img/logo.svg' %}"}
+  },
+  "datePublished": "{{ post.fecha_pub|date:'c' }}",
+  "dateModified": "{{ post.actualizado|date:'c' }}",
+  "url": "https://greendome.net{{ post.get_absolute_url }}"{% if post.imagen %},
+  "image": "https://greendome.net{{ post.imagen.url }}"{% endif %}
+}
+]
+</script>
+
+{# ─── NAV ─── #}
+<nav class="gd-nav" id="gdNav">
+  <a href="/" class="nav-logo">
+    {% if config.logo_nav %}
+      <img src="{{ config.logo_nav.url }}" alt="Green Dome" class="nav-logo-img nav-logo-svg" />
+    {% elif config.logo %}
+      <img src="{{ config.logo.url }}" alt="Green Dome" class="nav-logo-img nav-logo-svg" />
+    {% else %}
+      <img src="{% static 'img/logo.svg' %}" alt="Green Dome" class="nav-logo-img nav-logo-svg" />
+    {% endif %}
+  </a>
+  <ul class="nav-links">
+    <li><a href="/">Inicio</a></li>
+    <li><a href="/cannabis-club-sevilla/">Quiénes somos</a></li>
+    <li><a href="/que-hacemos/">Qué hacemos</a></li>
+    <li><a href="/nuestro-mundo/">Nuestro mundo</a></li>
+    <li><a href="/faq/">FAQ</a></li>
+    <li><a href="/blog/" class="nav-active">Blog</a></li>
+    <li><a href="/contacto/">Contacto</a></li>
+  </ul>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+{# ─── BREADCRUMB ─── #}
+<div style="padding:6rem 0 2rem;background:#0d0a14;">
+  <div class="container">
+    <nav aria-label="Breadcrumb">
+      <ol style="list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:.5rem;font-size:.85rem;color:#888;">
+        <li><a href="/" style="color:#7ed957;text-decoration:none;">Inicio</a></li>
+        <li style="color:#555;">›</li>
+        <li><a href="/blog/" style="color:#7ed957;text-decoration:none;">Blog</a></li>
+        <li style="color:#555;">›</li>
+        <li style="color:#ccc;">{{ post.titulo|truncatewords:8 }}</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+{# ─── ARTÍCULO ─── #}
+<article style="padding:2rem 0 6rem;background:#0d0a14;">
+  <div class="container" style="max-width:760px;">
+
+    {# Meta #}
+    <p style="color:#7ed957;font-size:.85rem;font-weight:600;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.05em;">
+      {{ post.fecha_pub|date:"d \d\e F \d\e Y" }} · {{ post.autor }}
+    </p>
+
+    <h1 style="color:#fff;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.2;margin-bottom:1.5rem;">
+      {{ post.titulo }}
+    </h1>
+
+    <p style="color:#aaa;font-size:1.1rem;line-height:1.7;margin-bottom:2rem;border-left:3px solid #7ed957;padding-left:1rem;">
+      {{ post.resumen }}
+    </p>
+
+    {% if post.imagen %}
+    <img src="{{ post.imagen.url }}" alt="{{ post.titulo }}" loading="lazy" decoding="async"
+         style="width:100%;border-radius:16px;margin-bottom:2.5rem;max-height:460px;object-fit:cover;" />
+    {% endif %}
+
+    {# Contenido #}
+    <div class="blog-content" style="color:#ccc;line-height:1.8;font-size:1rem;">
+      {{ post.contenido|safe }}
+    </div>
+
+    {# CTA #}
+    <div style="margin-top:3rem;padding:2rem;background:rgba(126,217,87,.06);border:1px solid rgba(126,217,87,.2);border-radius:16px;text-align:center;">
+      <p style="color:#fff;font-size:1.05rem;margin-bottom:1.2rem;">¿Quieres unirte al cannabis club Green Dome en Sevilla?</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <a href="https://wa.me/34681296703?text={{ config.whatsapp_msg|urlencode }}"
+           target="_blank" rel="noopener"
+           class="hero-cta" style="background:#25D366;color:#fff;border-color:#25D366;">WhatsApp</a>
+        <a href="https://instagram.com/{{ config.instagram }}" target="_blank" rel="noopener"
+           class="hero-cta" style="background:transparent;border-color:#7ed957;color:#7ed957;">Instagram</a>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+{# ─── ARTÍCULOS RECIENTES ─── #}
+{% if recientes %}
+<section style="padding:4rem 0 6rem;background:#080610;">
+  <div class="container">
+    <h2 style="color:#fff;text-align:center;font-size:1.5rem;margin-bottom:2.5rem;">Más artículos</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem;">
+      {% for r in recientes %}
+      <article style="background:rgba(126,217,87,.04);border:1px solid rgba(126,217,87,.1);border-radius:16px;overflow:hidden;">
+        {% if r.imagen %}
+        <img src="{{ r.imagen.url }}" alt="{{ r.titulo }}" loading="lazy" decoding="async"
+             style="width:100%;height:160px;object-fit:cover;" />
+        {% endif %}
+        <div style="padding:1.2rem;">
+          <p style="color:#7ed957;font-size:.75rem;font-weight:600;margin-bottom:.4rem;">{{ r.fecha_pub|date:"d M Y" }}</p>
+          <h3 style="font-size:1rem;color:#fff;margin-bottom:.6rem;line-height:1.4;">
+            <a href="{{ r.get_absolute_url }}" style="color:inherit;text-decoration:none;">{{ r.titulo }}</a>
+          </h3>
+          <a href="{{ r.get_absolute_url }}" style="color:#7ed957;font-size:.85rem;text-decoration:none;font-weight:600;">Leer →</a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# ─── FOOTER ─── #}
+<footer style="background:#0a0812;padding:2rem;text-align:center;color:#555;font-size:.85rem;">
+  <p>© 2025 Green Dome · Asociación Cannábica Sin Ánimo de Lucro · Sevilla, Nervión</p>
+  <p style="margin-top:.5rem;">
+    <a href="/" style="color:#7ed957;text-decoration:none;">Inicio</a> ·
+    <a href="/cannabis-club-sevilla/" style="color:#7ed957;text-decoration:none;">Quiénes somos</a> ·
+    <a href="/faq/" style="color:#7ed957;text-decoration:none;">FAQ</a> ·
+    <a href="/blog/" style="color:#7ed957;text-decoration:none;">Blog</a> ·
+    <a href="/contacto/" style="color:#7ed957;text-decoration:none;">Contacto</a>
+  </p>
+</footer>
+
+{% endblock %}

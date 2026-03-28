@@ -1,0 +1,17 @@
+{% comment %}FAQs por defecto cuando la base de datos está vacía{% endcomment %}
+
+{% for item in default_faqs %}
+<div class="faq-item reveal" style="margin-bottom:1.5rem;border:1px solid rgba(126,217,87,.15);border-radius:16px;overflow:hidden;">
+  <button class="faq-toggle" aria-expanded="false" style="width:100%;text-align:left;background:rgba(126,217,87,.05);border:none;padding:1.4rem 1.8rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;">
+    <span style="color:#fff;font-size:1.05rem;font-weight:600;">{{ item.0 }}</span>
+    <span class="faq-icon" style="color:#7ed957;font-size:1.4rem;flex-shrink:0;transition:transform .3s;">+</span>
+  </button>
+  <div class="faq-body" style="display:none;padding:0 1.8rem 1.4rem;color:#bbb;line-height:1.7;">
+    {{ item.1 }}
+  </div>
+</div>
+{% empty %}
+<div style="color:#888;text-align:center;padding:3rem;">
+  Las preguntas frecuentes se cargarán próximamente desde el panel de administración.
+</div>
+{% endfor %}

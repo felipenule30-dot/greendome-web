@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Qué Hacemos | Green Dome — Cannabis Club Sevilla · Actividades y Cultura{% endblock %}
+{% block meta_description %}Descubre las actividades de Green Dome: el cannabis social club privado de Sevilla. Autocultivo, cultura cannábica, eventos, educación y comunidad en Nervión.{% endblock %}
+{% block meta_keywords %}que hacemos cannabis club sevilla, actividades club cannabico sevilla, cultura cannabis sevilla, eventos cannabis sevilla, green dome actividades, cannabis social club programas sevilla{% endblock %}
+{% block canonical %}https://greendome.net/que-hacemos/{% endblock %}
+{% block og_title %}Qué Hacemos — Green Dome · Cannabis Club Sevilla{% endblock %}
+{% block og_description %}Actividades, cultura cannábica, autocultivo, educación y comunidad. Todo lo que hace Green Dome, el cannabis social club privado de Sevilla.{% endblock %}
+{% block og_url %}https://greendome.net/que-hacemos/{% endblock %}
+
+{% block body %}
+
+{# Age Gate Overlay #}
+<div id="ageGateOverlay" style="display:none;position:fixed;inset:0;z-index:99999;background:#0d0a14;align-items:center;justify-content:center;flex-direction:column;">
+  <div style="text-align:center;padding:2rem;max-width:420px;">
+    <img src="{% static 'img/logo.svg' %}" alt="Green Dome" style="width:80px;margin-bottom:1.5rem;" />
+    <h1 style="color:#7ed957;font-size:1.8rem;margin-bottom:.5rem;">Green Dome</h1>
+    <p style="color:#aaa;margin-bottom:.5rem;">Sevilla · Asociación Cannábica</p>
+    <p style="color:#fff;font-size:1.1rem;margin:1.5rem 0;">¿Eres mayor de 18 años?</p>
+    <p style="color:#888;font-size:.85rem;margin-bottom:2rem;">Este sitio contiene información sobre cannabis. El acceso está restringido a mayores de edad conforme a la legislación española.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;">
+      <button onclick="gdAgeYes()" style="background:#7ed957;color:#0d0a14;border:none;padding:.9rem 2.5rem;border-radius:50px;font-size:1rem;font-weight:700;cursor:pointer;">Sí, tengo +18</button>
+      <button onclick="gdAgeNo()" style="background:transparent;color:#fff;border:2px solid #444;padding:.9rem 2.5rem;border-radius:50px;font-size:1rem;cursor:pointer;">No, soy menor</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  if(!localStorage.getItem('gd_age_ok')){
+    var o=document.getElementById('ageGateOverlay');
+    o.style.display='flex';
+    document.body.style.overflow='hidden';
+  }
+})();
+function gdAgeYes(){
+  localStorage.setItem('gd_age_ok','1');
+  document.getElementById('ageGateOverlay').style.display='none';
+  document.body.style.overflow='';
+}
+function gdAgeNo(){ window.location.href='/acceso-denegado/'; }
+</script>
+
+{# JSON-LD #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"Inicio","item":"https://greendome.net/"},
+    {"@type":"ListItem","position":2,"name":"Qué Hacemos","item":"https://greendome.net/que-hacemos/"}
+  ]
+}
+</script>
+
+{# ─── NAV ─── #}
+<nav class="gd-nav" id="gdNav">
+  <a href="/" class="nav-logo">
+    {% if config.logo_nav %}
+      <img src="{{ config.logo_nav.url }}" alt="Green Dome" class="nav-logo-img nav-logo-svg" />
+    {% elif config.logo %}
+      <img src="{{ config.logo.url }}" alt="Green Dome" class="nav-logo-img nav-logo-svg" />
+    {% else %}
+      <img src="{% static 'img/logo.svg' %}" alt="Green Dome" class="nav-logo-img nav-logo-svg" />
+    {% endif %}
+  </a>
+  <ul class="nav-links">
+    <li><a href="/">Inicio</a></li>
+    <li><a href="/cannabis-club-sevilla/">Quiénes somos</a></li>
+    <li><a href="/que-hacemos/" class="nav-active">Qué hacemos</a></li>
+    <li><a href="/nuestro-mundo/">Nuestro mundo</a></li>
+    <li><a href="/faq/">FAQ</a></li>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/contacto/">Contacto</a></li>
+  </ul>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+{# ─── HERO ─── #}
+<section style="padding:8rem 0 4rem;background:linear-gradient(135deg,#0d0a14 0%,#1a0d2e 100%);">
+  <div class="container" style="text-align:center;">
+    <nav aria-label="Breadcrumb" style="margin-bottom:1rem;">
+      <ol style="list-style:none;padding:0;display:flex;justify-content:center;gap:.5rem;font-size:.85rem;color:#888;">
+        <li><a href="/" style="color:#7ed957;text-decoration:none;">Inicio</a></li>
+        <li style="color:#555;">›</li>
+        <li style="color:#ccc;">Qué hacemos</li>
+      </ol>
+    </nav>
+    <span class="section-label">Actividades · Cultura · Comunidad</span>
+    <h1 class="section-title" style="margin-top:.5rem;">Qué hacemos en Green Dome</h1>
+    <p style="color:#aaa;max-width:580px;margin:1rem auto 0;">
+      El cannabis social club privado de Sevilla que combina autocultivo, cultura cannábica y comunidad real en el barrio de Nervión.
+    </p>
+  </div>
+</section>
+
+{# ─── ACTIVIDADES ─── #}
+<section class="section-hacemos" id="que-hacemos" style="padding:4rem 0 6rem;background:#0d0a14;">
+  <div class="container">
+    {% if actividades %}
+    <div class="actividades-grid">
+      {% for act in actividades %}
+      <div class="actividad-item reveal">
+        <div class="actividad-dot"></div>
+        <div class="actividad-content">
+          <h2 class="actividad-titulo">{{ act.titulo }}</h2>
+          <p class="actividad-desc">{{ act.descripcion }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p style="color:#888;text-align:center;padding:3rem;">Las actividades se cargarán desde el panel de administración.</p>
+    {% endif %}
+  </div>
+</section>
+
+{# ─── NAVEGACIÓN ─── #}
+<section style="padding:3rem 0 4rem;background:#080610;text-align:center;">
+  <div class="container">
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <a href="/cannabis-club-sevilla/" class="hero-cta" style="background:transparent;border-color:rgba(126,217,87,.4);color:#7ed957;">Quiénes somos</a>
+      <a href="/nuestro-mundo/" class="hero-cta" style="background:transparent;border-color:rgba(126,217,87,.4);color:#7ed957;">Nuestro mundo</a>
+      <a href="/faq/" class="hero-cta" style="background:transparent;border-color:rgba(126,217,87,.4);color:#7ed957;">FAQ</a>
+      <a href="/contacto/" class="hero-cta">Contactar</a>
+    </div>
+  </div>
+</section>
+
+{# ─── FOOTER ─── #}
+<footer style="background:#0a0812;padding:2rem;text-align:center;color:#555;font-size:.85rem;">
+  <p>© 2025 Green Dome · Asociación Cannábica Sin Ánimo de Lucro · Sevilla, Nervión</p>
+  <p style="margin-top:.5rem;">
+    <a href="/" style="color:#7ed957;text-decoration:none;">Inicio</a> ·
+    <a href="/cannabis-club-sevilla/" style="color:#7ed957;text-decoration:none;">Quiénes somos</a> ·
+    <a href="/faq/" style="color:#7ed957;text-decoration:none;">FAQ</a> ·
+    <a href="/blog/" style="color:#7ed957;text-decoration:none;">Blog</a> ·
+    <a href="/contacto/" style="color:#7ed957;text-decoration:none;">Contacto</a>
+  </p>
+</footer>
+
+{% endblock %}
