@@ -2,7 +2,7 @@ import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-from .models import Member, SiteConfig, Personaje, MundoCard, Actividad, TimelineItem, BlogPost, FAQItem
+from .models import Member, SiteConfig, Personaje, MundoCard, Actividad, TimelineItem, BlogPost, BlogImage, FAQItem
 
 
 def age_gate(request):
@@ -97,12 +97,14 @@ def blog_list(request):
 
 def blog_detail(request, slug):
     """Página /blog/<slug>/ — artículo individual."""
-    post = get_object_or_404(BlogPost, slug=slug, publicado=True)
+    post     = get_object_or_404(BlogPost, slug=slug, publicado=True)
     recientes = BlogPost.objects.filter(publicado=True).exclude(pk=post.pk)[:3]
+    imagenes  = post.imagenes.all()
     ctx = {
         'config':   SiteConfig.load(),
         'post':     post,
         'recientes': recientes,
+        'imagenes': imagenes,
     }
     return render(request, 'core/blog_detail.html', ctx)
 

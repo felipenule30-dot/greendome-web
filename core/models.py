@@ -207,6 +207,34 @@ class BlogPost(models.Model):
         return reverse('blog_detail', kwargs={'slug': self.slug})
 
 
+class BlogImage(models.Model):
+    """Imágenes adicionales para incluir inline en artículos del blog."""
+    post        = models.ForeignKey(
+        BlogPost, on_delete=models.CASCADE,
+        related_name='imagenes', verbose_name='Artículo'
+    )
+    imagen      = models.ImageField(
+        upload_to='blog/',
+        verbose_name='Imagen',
+        help_text='Sube la imagen. Una vez guardada, copia su URL y pégala en el contenido '
+                  'con <img src="URL" alt="descripción" style="width:100%;border-radius:12px;margin:1.5rem 0;">',
+    )
+    descripcion = models.CharField(
+        max_length=200, blank=True,
+        verbose_name='Descripción / Alt text',
+        help_text='Descripción de la imagen para accesibilidad y SEO.'
+    )
+    orden       = models.PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        verbose_name = 'Imagen del artículo'
+        verbose_name_plural = 'Imágenes del artículo'
+        ordering = ['orden']
+
+    def __str__(self):
+        return f'Imagen {self.orden} — {self.post.titulo[:40]}'
+
+
 # ── FAQ ──────────────────────────────────────────────────────────
 
 

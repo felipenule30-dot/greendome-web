@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.html import format_html
-from .models import Member, SiteConfig, Personaje, MundoCard, Actividad, TimelineItem, BlogPost, FAQItem
+from django.forms import Textarea, TextInput
+from .models import Member, SiteConfig, Personaje, MundoCard, Actividad, TimelineItem, BlogPost, BlogImage, FAQItem
 
 
 # ── SiteConfig (singleton) ────────────────────────────────────────
@@ -164,23 +165,127 @@ class TimelineItemAdmin(admin.ModelAdmin):
 
 
 # ── Blog ──────────────────────────────────────────────────────────
+class BlogImageInline(admin.TabularInline):
+    model       = BlogImage
+    extra       = 2
+    fields      = ('imagen', 'descripcion', 'orden', 'url_copiada')
+    readonly_fields = ('url_copiada',)
+    ordering    = ('orden',)
+
+    @admin.display(description='URL para pegar en el contenido')
+    def url_copiada(self, obj):
+        if obj.pk and obj.imagen:
+            url = obj.imagen.url
+            return format_html(
+                '<code style="font-size:11px;color:#7ed957;word-break:break-all;">{}</code>'
+                '<br><small style="color:#888;">Copia esta URL y pégala en el contenido como:<br>'
+                '<code style="font-size:10px;">'
+                '&lt;img src=&quot;{}&quot; alt=&quot;{}&quot; '
+                'style=&quot;width:100%;border-radius:12px;margin:1.5rem 0;&quot;&gt;'
+                '</code></small>',
+                url, url, obj.descripcion or 'descripción'
+            )
+        return '(Guarda primero para ver la URL)'
+
+
 @admin.register(BlogPost)
 class BlogPostAdmin(admin.ModelAdmin):
-    list_display       = ('titulo', 'autor', 'publicado', 'fecha_pub')
-    list_display_links = ('titulo',)
-    list_editable      = ('publicado',)
-    list_filter        = ('publicado', 'fecha_pub')
-    search_fields      = ('titulo', 'resumen', 'contenido')
+    list_display        = ('titulo_corto', 'autor', 'publicado', 'fecha_pub', 'preview_link')
+    list_display_links  = ('titulo_corto',)
+    list_editable       = ('publicado',)
+    list_filter         = ('publicado', 'fecha_pub', 'autor')
+    search_fields       = ('titulo', 'resumen', 'contenido')
     prepopulated_fields = {'slug': ('titulo',)}
-    save_on_top        = True
+    date_hierarchy      = 'fecha_pub'
+    save_on_top         = True
+    inlines             = [BlogImageInline]
+
     fieldsets = (
-        ('Contenido', {
-            'fields': ('titulo', 'slug', 'resumen', 'contenido', 'imagen'),
+        ('📝  Contenido principal', {
+            'fields': ('titulo', 'slug', 'resumen'),
+            'description': (
+                '<strong>Título</strong>: el slug se genera automáticamente a partir del título. '
+                '<br><strong>Resumen</strong>: 1-3 frases. Aparece en la lista del blog y en la '
+                'meta description de Google (idealmente entre 120-160 caracteres).'
+            ),
         }),
-        ('Publicación', {
+        ('🖼️  Imagen de portada', {
+            'fields': ('imagen',),
+            'description': (
+                'Sube la imagen de portada del artículo. '
+                'Recomendado: <strong>1200 × 630 px</strong> en JPG (proporción Open Graph). '
+                'Se mostrará en la cabecera del artículo y como imagen en redes sociales.'
+            ),
+        }),
+        ('✍️  Cuerpo del artículo (HTML)', {
+            'fields': ('contenido',),
+            'description': (
+                'Escribe el artículo en HTML. Etiquetas útiles:<br>'
+                '<code>&lt;h2&gt;Título de sección&lt;/h2&gt;</code> — subtítulos<br>'
+                '<code>&lt;h3&gt;Subtítulo menor&lt;/h3&gt;</code><br>'
+                '<code>&lt;p&gt;Párrafo normal&lt;/p&gt;</code><br>'
+                '<code>&lt;strong&gt;negrita&lt;/strong&gt;</code> — texto en negrita verde<br>'
+                '<code>&lt;em&gt;cursiva&lt;/em&gt;</code><br>'
+                '<code>&lt;ul&gt;&lt;li&gt;item&lt;/li&gt;&lt;/ul&gt;</code> — lista<br>'
+                '<code>&lt;blockquote&gt;cita o fuente&lt;/blockquote&gt;</code> — cita destacada<br>'
+                '<code>&lt;img src="URL" alt="desc" style="width:100%;border-radius:12px;margin:1.5rem 0;"&gt;</code>'
+                ' — imagen inline (sube la imagen a /admin/core/blogpost/ y usa su URL, '
+                'o usa una URL externa)<br>'
+                '<code>&lt;hr&gt;</code> — separador<br>'
+                '<code>&lt;ol&gt;&lt;li&gt;item&lt;/li&gt;&lt;/ol&gt;</code> — lista numerada'
+            ),
+        }),
+        ('⚙️  Publicación y metadatos', {
             'fields': ('autor', 'publicado', 'fecha_pub'),
+            'description': (
+                'Marca <strong>Publicado</strong> para que el artículo sea visible en la web. '
+                'La <strong>fecha de publicación</strong> aparece en el artículo y en el sitemap. '
+                'Puedes programar artículos con fecha futura (no aparecerán hasta esa fecha).'
+            ),
         }),
     )
+
+    # Textarea grande para el contenido HTML
+    formfield_overrides = {
+        __import__('django.db.models', fromlist=['TextField']).TextField: {
+            'widget': Textarea(attrs={
+                'rows': 40,
+                'cols': 120,
+                'style': (
+                    'font-family: "Courier New", monospace; '
+                    'font-size: 13px; '
+                    'background: #1a1a2e; '
+                    'color: #e0e0e0; '
+                    'border: 1px solid #444; '
+                    'border-radius: 8px; '
+                    'padding: 12px; '
+                    'line-height: 1.6; '
+                    'width: 100%;'
+                ),
+            })
+        },
+    }
+
+    # Imagen preview en la lista
+    @admin.display(description='Vista previa')
+    def preview_link(self, obj):
+        if obj.pk and obj.slug:
+            return format_html(
+                '<a href="/blog/{}/" target="_blank" '
+                'style="color:#7ed957;font-size:11px;">🔗 Ver en web</a>',
+                obj.slug
+            )
+        return '—'
+
+    @admin.display(description='Título')
+    def titulo_corto(self, obj):
+        t = obj.titulo
+        return t[:60] + '…' if len(t) > 60 else t
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return ('creado_en', 'actualizado')
+        return ()
 
 
 # ── FAQ ───────────────────────────────────────────────────────────

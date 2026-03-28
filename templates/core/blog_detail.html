@@ -141,8 +141,49 @@ function gdAgeNo(){ window.location.href='/acceso-denegado/'; }
       {{ post.contenido|safe }}
     </div>
 
+    {# Galería de imágenes del artículo #}
+    {% if imagenes %}
+    <div style="margin:3rem 0;">
+      <h3 style="color:#7ed957;font-size:1rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:1.5rem;">Galería</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
+        {% for img in imagenes %}
+        <figure style="margin:0;">
+          <img src="{{ img.imagen.url }}" alt="{{ img.descripcion|default:post.titulo }}"
+               loading="lazy" decoding="async"
+               style="width:100%;border-radius:12px;display:block;object-fit:cover;max-height:300px;" />
+          {% if img.descripcion %}
+          <figcaption style="color:#666;font-size:.8rem;margin-top:.5rem;text-align:center;font-style:italic;">
+            {{ img.descripcion }}
+          </figcaption>
+          {% endif %}
+        </figure>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {# Tags de compartir #}
+    <div style="margin:2.5rem 0;padding:1.5rem;background:rgba(255,255,255,.03);border-radius:12px;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+      <span style="color:#888;font-size:.85rem;">Compartir:</span>
+      <a href="https://wa.me/?text={{ post.titulo|urlencode }}%20https://greendome.net{{ post.get_absolute_url }}"
+         target="_blank" rel="noopener"
+         style="background:#25D366;color:#fff;padding:.4rem 1rem;border-radius:50px;font-size:.8rem;font-weight:600;text-decoration:none;">
+        WhatsApp
+      </a>
+      <a href="https://twitter.com/intent/tweet?text={{ post.titulo|urlencode }}&url=https://greendome.net{{ post.get_absolute_url }}&via=greendome_svq"
+         target="_blank" rel="noopener"
+         style="background:#1da1f2;color:#fff;padding:.4rem 1rem;border-radius:50px;font-size:.8rem;font-weight:600;text-decoration:none;">
+        X / Twitter
+      </a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https://greendome.net{{ post.get_absolute_url }}"
+         target="_blank" rel="noopener"
+         style="background:#1877f2;color:#fff;padding:.4rem 1rem;border-radius:50px;font-size:.8rem;font-weight:600;text-decoration:none;">
+        Facebook
+      </a>
+    </div>
+
     {# CTA #}
-    <div style="margin-top:3rem;padding:2rem;background:rgba(126,217,87,.06);border:1px solid rgba(126,217,87,.2);border-radius:16px;text-align:center;">
+    <div style="margin-top:2rem;padding:2rem;background:rgba(126,217,87,.06);border:1px solid rgba(126,217,87,.2);border-radius:16px;text-align:center;">
       <p style="color:#fff;font-size:1.05rem;margin-bottom:1.2rem;">¿Quieres unirte al cannabis club Green Dome en Sevilla?</p>
       <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
         <a href="https://wa.me/34681296703?text={{ config.whatsapp_msg|urlencode }}"
