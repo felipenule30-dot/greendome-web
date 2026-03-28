@@ -32,6 +32,7 @@ cfg.contacto_desc  = (
     'Green Dome es un club privado. Para información sobre membresía '
     'contáctanos directamente.'
 )
+cfg.cta_texto      = 'Descúbrenos'
 
 cfg.save()
 print('✓ SiteConfig: textos corregidos con tildes correctas.')
