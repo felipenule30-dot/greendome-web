@@ -48,15 +48,22 @@
   };
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  // Hamburger (mobile)
+  // Hamburger (mobile) — animado con clase
   const burger = document.getElementById('navHamburger');
   const links  = nav.querySelector('.nav-links');
   if (burger && links) {
     burger.addEventListener('click', () => {
-      const open = links.style.display === 'flex';
-      links.style.cssText = open
-        ? ''
-        : 'display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(13,10,20,.97);padding:1.5rem 5vw;gap:1.2rem;border-bottom:1px solid rgba(126,217,87,.15);backdrop-filter:blur(16px);';
+      const open = links.classList.toggle('nav-open');
+      burger.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', open);
+    });
+    // Cerrar al hacer click en un enlace
+    links.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        links.classList.remove('nav-open');
+        burger.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
     });
   }
 })();
@@ -198,6 +205,79 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     const walk = (x - startX) * 1.4;
     wrap.scrollLeft = scrollLeft - walk;
   });
+})();
+
+/* ── Magnetic CTA ─────────────────────────────────────────── */
+(function initMagneticCTA() {
+  const btn = document.querySelector('.hero-cta');
+  if (!btn || 'ontouchstart' in window) return;
+
+  btn.addEventListener('mousemove', e => {
+    const r  = btn.getBoundingClientRect();
+    const dx = (e.clientX - (r.left + r.width  / 2)) * 0.28;
+    const dy = (e.clientY - (r.top  + r.height / 2)) * 0.28;
+    btn.style.transitionDuration = '0s';
+    btn.style.transform = `translateY(-4px) scale(1.05) translate(${dx.toFixed(1)}px,${dy.toFixed(1)}px)`;
+  });
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transitionDuration = '';
+    btn.style.transform = '';
+  });
+})();
+
+/* ── 3D Tilt en mundo-cards ──────────────────────────────── */
+(function initTilt() {
+  const cards = document.querySelectorAll('.mundo-card');
+  if (!cards.length || 'ontouchstart' in window) return;
+
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      // Desactiva transition de transform para respuesta instantánea
+      card.style.transition = 'box-shadow .4s ease';
+    });
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width  - 0.5;
+      const y = (e.clientY - r.top)  / r.height - 0.5;
+      card.style.transform =
+        `perspective(700px) translateY(-8px) scale(1.015) rotateX(${(-y * 7).toFixed(2)}deg) rotateY(${(x * 7).toFixed(2)}deg)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      // Restaura spring para el regreso
+      card.style.transition = 'transform .5s cubic-bezier(0.34,1.56,0.64,1), box-shadow .4s ease';
+      card.style.transform  = '';
+      setTimeout(() => { card.style.transition = ''; }, 520);
+    });
+  });
+})();
+
+/* ── Parallax blob en hero ───────────────────────────────── */
+(function initParallaxBlob() {
+  const blob = document.querySelector('.hero-blob');
+  const hero = document.querySelector('.hero');
+  if (!blob || !hero || 'ontouchstart' in window) return;
+
+  let tx = 0, ty = 0, cx = 0, cy = 0, raf, visible = false;
+
+  window.addEventListener('mousemove', e => {
+    if (!visible) return;
+    cx = (e.clientX - window.innerWidth  / 2) * 0.022;
+    cy = (e.clientY - window.innerHeight / 2) * 0.022;
+  }, { passive: true });
+
+  function loop() {
+    if (!visible) return;
+    tx += (cx - tx) * 0.055;
+    ty += (cy - ty) * 0.055;
+    blob.style.transform = `translate(calc(-50% + ${tx.toFixed(2)}px), calc(-50% + ${ty.toFixed(2)}px))`;
+    raf = requestAnimationFrame(loop);
+  }
+
+  new IntersectionObserver(entries => {
+    visible = entries[0].isIntersecting;
+    if (visible) loop();
+    else cancelAnimationFrame(raf);
+  }, { threshold: 0 }).observe(hero);
 })();
 
 /* ── Stat cards: contador animado ──────────────────────────── */

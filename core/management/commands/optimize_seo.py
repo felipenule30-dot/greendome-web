@@ -25,51 +25,51 @@ from django.utils import timezone
 KEYWORD_SETS = [
     # Set 1 — Foco: asociación / club
     (
-        "green dome, asociacion cannabica sevilla, club cannabico sevilla, "
-        "club social cannabis sevilla, asociaciones cannabicas sevilla, "
-        "cannabis nervion, asociacion cannabis nervion, club privado cannabis sevilla, "
-        "asociaciones nervion sevilla, green dome svq"
+        "green dome, asociación cannábica sevilla, club cannábico sevilla, "
+        "club social cannabis sevilla, asociaciones cannábicas sevilla, "
+        "cannabis nervión, asociación cannabis nervión, club privado cannabis sevilla, "
+        "asociaciones nervión sevilla, green dome svq"
     ),
     # Set 2 — Foco: búsquedas informales
     (
         "weed sevilla, marihuana sevilla, hierba sevilla, cannabis sevilla, "
         "club cannabis sevilla, green dome sevilla, asociacion canabica sevilla, "
-        "canabis sevilla, social club sevilla, club cannabico nervion"
+        "canabis sevilla, social club sevilla, club cannábico nervión"
     ),
     # Set 3 — Foco: comparativas / tipo de negocio
     (
         "tienda cannabis sevilla, dispensario cannabis sevilla, "
-        "donde comprar cannabis sevilla, cbd sevilla, club cbd sevilla, "
-        "asociacion cbd sevilla, cannabis legal sevilla, cannabis recreativo sevilla, "
-        "consumo responsable sevilla, cultura cannabis andalucia"
+        "dónde comprar cannabis sevilla, cbd sevilla, club cbd sevilla, "
+        "asociación cbd sevilla, cannabis legal sevilla, cannabis recreativo sevilla, "
+        "consumo responsable sevilla, cultura cannabis andalucía"
     ),
     # Set 4 — Foco: localización barrio
     (
-        "club cannabis nervion sevilla, asociacion nervion sevilla, "
-        "cannabis barrio nervion, weed nervion, marihuana nervion sevilla, "
-        "hierba nervion sevilla, club privado nervion, asociaciones cannabicas andalucia, "
-        "cannabis andalucia, club canabico andalucia"
+        "club cannabis nervión sevilla, asociación nervión sevilla, "
+        "cannabis barrio nervión, weed nervión, marihuana nervión sevilla, "
+        "hierba nervión sevilla, club privado nervión, asociaciones cannábicas andalucía, "
+        "cannabis andalucía, club cannábico andalucía"
     ),
     # Set 5 — Foco: long-tail / intención búsqueda
     (
-        "como unirse a club cannabico sevilla, como hacerse socio club cannabis sevilla, "
-        "asociacion cannabica sin animo lucro sevilla, club social cannabis nervion, "
+        "cómo unirse a club cannábico sevilla, cómo hacerse socio club cannabis sevilla, "
+        "asociación cannábica sin ánimo de lucro sevilla, club social cannabis nervión, "
         "green dome club sevilla, greendome svq instagram, lacupulaverdesv, "
-        "cupula verde sevilla, la cupula verde sevilla, cannabis club sevilla espana"
+        "cúpula verde sevilla, la cúpula verde sevilla, cannabis club sevilla españa"
     ),
     # Set 6 — Foco: cultura + comunidad
     (
-        "cultura cannabis sevilla, comunidad cannabis sevilla, historia cannabis espana, "
-        "club cultural cannabis sevilla, asociacion cultural cannabis sevilla, "
+        "cultura cannabis sevilla, comunidad cannabis sevilla, historia cannabis españa, "
+        "club cultural cannabis sevilla, asociación cultural cannabis sevilla, "
         "consumo responsable cannabis, weed culture sevilla, cannabis lifestyle sevilla, "
-        "green dome asociacion, club canabico sevilla centro"
+        "green dome asociación, club cannábico sevilla centro"
     ),
     # Set 7 — Foco: inglés (turismo)
     (
         "cannabis club seville spain, weed club seville, marijuana seville, "
         "social cannabis club seville, green dome seville, weed sevilla spain, "
         "cannabis association seville, private cannabis club seville, "
-        "where to find weed seville, cannabis nervion seville"
+        "where to find weed seville, cannabis nervión seville"
     ),
     # Set 8 — Foco: variantes ortográficas (errores comunes)
     (

@@ -175,7 +175,7 @@ META_USE_TWITTER_PROPERTIES = True
 META_USE_SCHEMAORG_PROPERTIES = True
 META_USE_TITLE_TAG = True
 META_DEFAULT_KEYWORDS = [
-    'green dome', 'asociacion cannabica sevilla', 'club cannabis sevilla',
+    'green dome', 'asociación cannábica sevilla', 'club cannabis sevilla',
     'cultura cannabis', 'comunidad', 'sevilla'
 ]
 

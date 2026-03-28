@@ -1567,3 +1567,232 @@ body:has(button:hover) .cursor-ring {
   font-size: .9em;
 }
 .blog-content ol[style*="color:#999"] li { color: #888; font-size: .9rem; }
+
+/* ============================================================
+   GREEN DOME — Polish Layer
+   Spring physics · Micro-interactions · Natural motion
+   Solo transforms/opacity — cero impacto en rendimiento
+   ============================================================ */
+
+/* ── Easing con spring physics ──────────────────────────────── */
+:root {
+  --spring:      cubic-bezier(0.34, 1.56, 0.64, 1);
+  --spring-soft: cubic-bezier(0.25, 1.4,  0.5,  1);
+  --ease-expo:   cubic-bezier(0.16, 1,    0.3,  1);
+}
+
+/* ── Scroll reveal — spring ─────────────────────────────────── */
+.reveal,
+.reveal-left,
+.reveal-right {
+  transition: opacity .6s var(--ease-expo), transform .7s var(--spring);
+}
+
+/* ── Hero entrance — stagger con spring ─────────────────────── */
+@keyframes heroIn {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroCTAIn {
+  from { opacity: 0; transform: translateY(18px) scale(0.9); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.hero-eyebrow     { animation: heroIn .65s var(--ease-expo) .05s both; }
+.hero-logo-img    {
+  animation: heroIn .9s var(--spring) .15s both,
+             heroBreathe 4s 1.1s ease-in-out infinite;
+}
+.hero-tagline     { animation: heroIn .65s var(--ease-expo) .35s both; }
+.hero-cta         { animation: heroCTAIn .7s var(--spring) .5s both; }
+.hero-scroll-hint { animation: heroIn .5s var(--ease-expo) .85s both; }
+
+/* ── Botones — spring hover + squish active ─────────────────── */
+.hero-cta {
+  transition: transform .45s var(--spring), box-shadow .3s ease, background .2s ease;
+}
+.hero-cta:hover  { transform: translateY(-4px) scale(1.05); }
+.hero-cta:active { transform: translateY(1px) scale(0.96) !important;
+                   transition-duration: .1s !important; }
+
+.btn-contact,
+.btn-register {
+  transition: transform .45s var(--spring), box-shadow .3s ease, background .2s ease;
+}
+.btn-contact:hover,
+.btn-register:hover  { transform: translateY(-3px) scale(1.03); }
+.btn-contact:active,
+.btn-register:active { transform: scale(0.96) !important;
+                       transition-duration: .1s !important; }
+
+.btn-yes { transition: transform .45s var(--spring), box-shadow .3s ease, background .2s ease; }
+.btn-yes:hover  { transform: translateY(-4px) scale(1.04); }
+.btn-yes:active { transform: scale(0.95) !important; transition-duration: .1s !important; }
+.btn-no:active  { transform: scale(0.96) !important; transition-duration: .1s !important; }
+
+.social-btn {
+  transition: transform .45s var(--spring), box-shadow .3s ease, background .2s ease;
+}
+.social-btn:hover  { transform: translateY(-4px) scale(1.02); }
+.social-btn:active { transform: scale(0.96) !important; transition-duration: .1s !important; }
+
+.mapa-btn--directions,
+.mapa-btn--review {
+  transition: transform .4s var(--spring), box-shadow .3s ease,
+              background .2s ease, color .2s ease;
+}
+.mapa-btn--directions:hover { transform: translateY(-3px) scale(1.03); }
+.mapa-btn--review:hover     { transform: translateY(-3px) scale(1.03); }
+
+/* ── Stat cards — spring lift ───────────────────────────────── */
+.stat-card {
+  transition: border-color .3s ease, background .3s ease,
+              transform .5s var(--spring), box-shadow .4s ease;
+}
+.stat-card:hover { transform: translateY(-6px) scale(1.02); }
+
+/* ── Mundo cards — spring lift ──────────────────────────────── */
+.mundo-card {
+  transition: transform .5s var(--spring), box-shadow .4s ease;
+}
+.mundo-card:hover {
+  transform: translateY(-8px) scale(1.015);
+  box-shadow: 0 28px 60px rgba(0,0,0,.45);
+}
+.card-img { transition: transform .6s var(--spring); }
+.mundo-card:hover .card-img { transform: scale(1.08); }
+
+/* ── Persona cards — spring lift ────────────────────────────── */
+.persona-card {
+  transition: border-color .3s ease, transform .5s var(--spring), box-shadow .4s ease;
+}
+.persona-card:hover { transform: translateY(-10px) scale(1.02); }
+.persona-img { transition: transform .6s var(--spring); }
+.persona-card--img:hover .persona-img { transform: scale(1.08); }
+
+/* ── Nav underline desde el centro ─────────────────────────── */
+.nav-links a::after { transform-origin: center; }
+
+/* ── Nav móvil — slide animado ──────────────────────────────── */
+@media (max-width: 1000px) {
+  .nav-links {
+    display: flex !important;
+    flex-direction: column;
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    background: rgba(13,10,20,.97);
+    padding: 0 5vw;
+    gap: 0;
+    border-bottom: 1px solid rgba(126,217,87,.15);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .45s var(--ease-expo), padding .45s var(--ease-expo),
+                gap .35s var(--ease-expo);
+    pointer-events: none;
+  }
+  .nav-links.nav-open {
+    max-height: 420px;
+    padding: 1.5rem 5vw;
+    gap: 1.2rem;
+    pointer-events: auto;
+  }
+  .nav-links a {
+    opacity: 0;
+    transform: translateX(-14px);
+    transition: opacity .3s ease, transform .35s var(--spring), color var(--transition);
+  }
+  .nav-links.nav-open a                { opacity: 1; transform: translateX(0); }
+  .nav-links.nav-open a:nth-child(1)   { transition-delay: .06s; }
+  .nav-links.nav-open a:nth-child(2)   { transition-delay: .11s; }
+  .nav-links.nav-open a:nth-child(3)   { transition-delay: .16s; }
+  .nav-links.nav-open a:nth-child(4)   { transition-delay: .21s; }
+  .nav-links.nav-open a:nth-child(5)   { transition-delay: .26s; }
+}
+
+/* ── Hamburger → X animado ──────────────────────────────────── */
+.nav-hamburger span {
+  transition: transform .35s var(--spring), opacity .25s ease;
+  transform-origin: center;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px)  rotate(45deg);  }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ── Timeline dots — ripple vivo ────────────────────────────── */
+@keyframes dotRipple {
+  0%   { box-shadow: 0 0 0 0   rgba(126,217,87,.55), 0 0 10px rgba(126,217,87,.5); }
+  70%  { box-shadow: 0 0 0 10px rgba(126,217,87,0),   0 0 10px rgba(126,217,87,.5); }
+  100% { box-shadow: 0 0 0 0   rgba(126,217,87,0),    0 0 10px rgba(126,217,87,.5); }
+}
+.timeline-item::before { animation: dotRipple 2.8s ease-out infinite; }
+
+/* ── Actividad num — slide en hover ─────────────────────────── */
+.actividad-num {
+  transition: opacity .35s var(--spring), transform .35s var(--spring);
+}
+.actividad-item:hover .actividad-num {
+  opacity: .85;
+  transform: translateX(5px) scale(1.08);
+}
+
+/* ── Section label — breathe sutil ─────────────────────────── */
+@keyframes labelPulse {
+  0%, 100% { border-color: rgba(126,217,87,.25); box-shadow: none; }
+  50%       { border-color: rgba(126,217,87,.55); box-shadow: 0 0 14px rgba(126,217,87,.14); }
+}
+.section-label { animation: labelPulse 3.5s ease-in-out infinite; }
+
+/* ── Form — glow ring en focus ──────────────────────────────── */
+.form-group input:focus,
+.form-group textarea:focus {
+  box-shadow: 0 0 0 3px rgba(126,217,87,.14), 0 2px 8px rgba(0,0,0,.2);
+}
+
+/* ── Footer links — underline slide ─────────────────────────── */
+.footer-links a {
+  position: relative;
+  display: inline-block;
+}
+.footer-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 1px;
+  background: var(--green-bright);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .4s var(--spring);
+}
+.footer-links a:hover::after { transform: scaleX(1); }
+
+/* ── Cursor — expand en cards ───────────────────────────────── */
+body:has(.mundo-card:hover) .cursor-ring,
+body:has(.persona-card:hover) .cursor-ring,
+body:has(.stat-card:hover) .cursor-ring {
+  width: 56px; height: 56px;
+  border-color: rgba(126,217,87,.7);
+  opacity: 1;
+}
+
+/* ── WhatsApp float — spring ────────────────────────────────── */
+.whatsapp-float {
+  transition: transform .4s var(--spring), box-shadow .3s ease;
+}
+.whatsapp-float:hover {
+  transform: scale(1.18) translateY(-2px);
+  box-shadow: 0 8px 36px rgba(37,211,102,.8), 0 4px 12px rgba(0,0,0,.35);
+}
+.whatsapp-float:active {
+  transform: scale(0.94) !important;
+  transition-duration: .12s !important;
+}
+
+/* ── Reduced motion — respeto al usuario ────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
