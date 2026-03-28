@@ -39,9 +39,7 @@ def access_denied(request):
 
 
 def home(request):
-    """Página principal — requiere verificación de edad."""
-    if not request.session.get('age_verified') and not _is_bot(request):
-        return redirect('age_gate')
+    """Página principal — age gate gestionado por JavaScript en el cliente."""
     ctx = {
         'config':     SiteConfig.load(),
         'personajes': Personaje.objects.filter(activo=True),
