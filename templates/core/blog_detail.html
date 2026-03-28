@@ -18,7 +18,7 @@
 <div id="ageGateOverlay" style="display:none;position:fixed;inset:0;z-index:99999;background:#0d0a14;align-items:center;justify-content:center;flex-direction:column;">
   <div style="text-align:center;padding:2rem;max-width:420px;">
     <img src="{% static 'img/logo.svg' %}" alt="Green Dome" style="width:80px;margin-bottom:1.5rem;" />
-    <h1 style="color:#7ed957;font-size:1.8rem;margin-bottom:.5rem;">Green Dome</h1>
+    <p style="color:#7ed957;font-size:1.8rem;margin-bottom:.5rem;font-weight:700;">Green Dome</p>
     <p style="color:#aaa;margin-bottom:.5rem;">Sevilla · Asociación Cannábica</p>
     <p style="color:#fff;font-size:1.1rem;margin:1.5rem 0;">¿Eres mayor de 18 años?</p>
     <p style="color:#888;font-size:.85rem;margin-bottom:2rem;">Este sitio contiene información sobre cannabis. El acceso está restringido a mayores de edad conforme a la legislación española.</p>
@@ -61,7 +61,7 @@ function gdAgeNo(){ window.location.href='/acceso-denegado/'; }
   "@type": "Article",
   "headline": "{{ post.titulo|escapejs }}",
   "description": "{{ post.resumen|escapejs }}",
-  "author": {"@type":"Organization","name":"{{ post.autor|escapejs }}"},
+  "author": {"@type":"Person","name":"{{ post.autor|escapejs }}","url":"https://greendome.net/cannabis-club-sevilla/"},
   "publisher": {
     "@type": "Organization",
     "name": "Green Dome",
