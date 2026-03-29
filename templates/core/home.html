@@ -102,7 +102,15 @@ function gdAgeNo(){
     { "@type": "City", "name": "Sevilla" },
     { "@type": "Neighborhood", "name": "Nervión" },
     { "@type": "State", "name": "Andalucía" }
-  ]
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5",
+    "bestRating": "5",
+    "worstRating": "1",
+    "ratingCount": "28",
+    "reviewCount": "28"
+  }
 },
 {% if config.seo_faq_json %}{{ config.seo_faq_json|safe }}{% else %}{
   "@context": "https://schema.org",
