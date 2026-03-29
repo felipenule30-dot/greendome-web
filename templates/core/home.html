@@ -61,11 +61,26 @@ function gdAgeNo(){
   "email": "lacupulaverdesv@gmail.com",
   "address": {
     "@type": "PostalAddress",
+    "streetAddress": "Barrio Nervión",
     "addressLocality": "Sevilla",
+    "postalCode": "41005",
     "addressRegion": "Andalucía",
-    "addressCountry": "ES",
-    "addressArea": "Nervión"
+    "addressCountry": "ES"
   },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+      "opens": "16:00",
+      "closes": "22:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Saturday","Sunday"],
+      "opens": "14:00",
+      "closes": "22:00"
+    }
+  ],
   "geo": {
     "@type": "GeoCoordinates",
     "latitude": "37.3806919",
@@ -154,6 +169,7 @@ function gdAgeNo(){
     <li><a href="#quienes-somos">Quiénes somos</a></li>
     <li><a href="#mundo">Nuestro mundo</a></li>
     <li><a href="#que-hacemos">Qué hacemos</a></li>
+    <li><a href="/the-club/">The Club</a></li>
     <li><a href="/faq/">FAQ</a></li>
     <li><a href="/blog/">Blog</a></li>
     <li><a href="#contacto">Contacto</a></li>
@@ -551,6 +567,40 @@ function gdAgeNo(){
           </a>
           {% endif %}
         </div>
+
+        {# ── Card de reseña sugerida ── #}
+        {% if config.maps_review_url %}
+        <div class="review-card reveal">
+          <div class="review-card-header">
+            <span class="review-stars">⭐⭐⭐⭐⭐</span>
+            <span class="review-card-title">¿Te gustó Green Dome? Cuéntalo</span>
+          </div>
+          <p class="review-card-hint">Copia este texto y pégalo en tu reseña de Google:</p>
+          <div class="review-card-text" id="reviewSuggestedText">Excelente cannabis club privado en Sevilla, en el barrio de Nervión. Muy buena calidad, ambiente agradable y equipo profesional. Sin duda el mejor social club de la ciudad. Muy recomendable.</div>
+          <div class="review-card-actions">
+            <button class="review-copy-btn" onclick="gdCopyReview()" id="reviewCopyBtn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              Copiar texto
+            </button>
+            <a href="{{ config.maps_review_url }}" target="_blank" rel="noopener noreferrer" class="review-write-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              Escribir reseña en Google
+            </a>
+          </div>
+        </div>
+        <script>
+        function gdCopyReview(){
+          var t=document.getElementById('reviewSuggestedText').innerText;
+          navigator.clipboard.writeText(t).then(function(){
+            var b=document.getElementById('reviewCopyBtn');
+            b.textContent='✓ Copiado';
+            b.style.background='#7ed957';
+            b.style.color='#0d0a14';
+            setTimeout(function(){ b.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copiar texto'; b.style.background=''; b.style.color=''; }, 2500);
+          });
+        }
+        </script>
+        {% endif %}
 
         <p class="mapa-disclaimer">
           <span>📍</span> Sevilla, Andalucía · Ubicación exacta disponible para socios

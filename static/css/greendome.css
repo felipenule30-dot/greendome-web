@@ -1796,3 +1796,147 @@ body:has(.stat-card:hover) .cursor-ring {
     transition-duration: .01ms !important;
   }
 }
+
+/* ── Review Card (botón reseña Google) ──────────────────────── */
+.review-card {
+  background: rgba(126,217,87,.06);
+  border: 1px solid rgba(126,217,87,.2);
+  border-radius: 16px;
+  padding: 1.4rem 1.6rem;
+  margin-top: 1.2rem;
+}
+.review-card-header {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  margin-bottom: .8rem;
+}
+.review-stars { font-size: 1rem; letter-spacing: .1em; }
+.review-card-title {
+  color: #e0e0e0;
+  font-weight: 600;
+  font-size: .95rem;
+}
+.review-card-hint {
+  color: #888;
+  font-size: .82rem;
+  margin-bottom: .6rem;
+}
+.review-card-text {
+  background: rgba(255,255,255,.04);
+  border-left: 3px solid #7ed957;
+  border-radius: 6px;
+  padding: .8rem 1rem;
+  color: #ccc;
+  font-size: .9rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-style: italic;
+  cursor: text;
+  user-select: all;
+}
+.review-card-actions {
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+.review-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  background: transparent;
+  border: 1.5px solid #555;
+  color: #ccc;
+  padding: .55rem 1.1rem;
+  border-radius: 50px;
+  font-size: .85rem;
+  cursor: pointer;
+  transition: border-color .2s, color .2s, background .2s;
+}
+.review-copy-btn:hover {
+  border-color: #7ed957;
+  color: #7ed957;
+}
+.review-write-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  background: #7ed957;
+  color: #0d0a14;
+  padding: .55rem 1.2rem;
+  border-radius: 50px;
+  font-size: .85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: opacity .2s, transform .15s;
+}
+.review-write-btn:hover {
+  opacity: .9;
+  transform: translateY(-1px);
+}
+
+/* ── The Club — galería ──────────────────────────────────────── */
+.club-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.club-photo-card {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  background: #1a1525;
+  cursor: pointer;
+}
+.club-photo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .4s ease;
+}
+.club-photo-card:hover img { transform: scale(1.06); }
+.club-photo-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: .7rem 1rem;
+  background: linear-gradient(transparent, rgba(0,0,0,.75));
+  color: #fff;
+  font-size: .85rem;
+  opacity: 0;
+  transition: opacity .3s;
+}
+.club-photo-card:hover .club-photo-caption { opacity: 1; }
+
+/* Lightbox */
+.club-lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,.92);
+  align-items: center;
+  justify-content: center;
+}
+.club-lightbox.active { display: flex; }
+.club-lightbox img {
+  max-width: 90vw;
+  max-height: 85vh;
+  border-radius: 10px;
+  object-fit: contain;
+}
+.club-lightbox-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  line-height: 1;
+}

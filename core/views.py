@@ -2,7 +2,7 @@ import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-from .models import Member, SiteConfig, Personaje, MundoCard, Actividad, TimelineItem, BlogPost, BlogImage, FAQItem
+from .models import Member, SiteConfig, Personaje, MundoCard, Actividad, TimelineItem, BlogPost, BlogImage, FAQItem, ClubPhoto
 
 
 def age_gate(request):
@@ -107,6 +107,28 @@ def blog_detail(request, slug):
         'imagenes': imagenes,
     }
     return render(request, 'core/blog_detail.html', ctx)
+
+
+# ── Cannabis Club Seville (English page) ──────────────────────────
+
+def seccion_seville(request):
+    """Página /cannabis-club-seville/ — versión en inglés."""
+    ctx = {
+        'config': SiteConfig.load(),
+        'posts':  BlogPost.objects.filter(publicado=True, idioma='en')[:5],
+    }
+    return render(request, 'core/seccion_seville.html', ctx)
+
+
+# ── The Club — galería de fotos ────────────────────────────────────
+
+def the_club(request):
+    """Página /the-club/ — galería de fotos del interior."""
+    ctx = {
+        'config': SiteConfig.load(),
+        'fotos':  ClubPhoto.objects.filter(activo=True),
+    }
+    return render(request, 'core/the_club.html', ctx)
 
 
 # ── Registro miembros ─────────────────────────────────────────────

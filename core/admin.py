@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.html import format_html
 from django.forms import Textarea, TextInput
-from .models import Member, SiteConfig, Personaje, MundoCard, Actividad, TimelineItem, BlogPost, BlogImage, FAQItem
+from .models import Member, SiteConfig, Personaje, MundoCard, Actividad, TimelineItem, BlogPost, BlogImage, FAQItem, ClubPhoto
 
 
 # ── SiteConfig (singleton) ────────────────────────────────────────
@@ -190,10 +190,10 @@ class BlogImageInline(admin.TabularInline):
 
 @admin.register(BlogPost)
 class BlogPostAdmin(admin.ModelAdmin):
-    list_display        = ('titulo_corto', 'autor', 'publicado', 'fecha_pub', 'preview_link')
+    list_display        = ('titulo_corto', 'idioma', 'autor', 'publicado', 'fecha_pub', 'preview_link')
     list_display_links  = ('titulo_corto',)
-    list_editable       = ('publicado',)
-    list_filter         = ('publicado', 'fecha_pub', 'autor')
+    list_editable       = ('publicado', 'idioma')
+    list_filter         = ('publicado', 'idioma', 'fecha_pub', 'autor')
     search_fields       = ('titulo', 'resumen', 'contenido')
     prepopulated_fields = {'slug': ('titulo',)}
     date_hierarchy      = 'fecha_pub'
@@ -236,7 +236,7 @@ class BlogPostAdmin(admin.ModelAdmin):
             ),
         }),
         ('⚙️  Publicación y metadatos', {
-            'fields': ('autor', 'publicado', 'fecha_pub'),
+            'fields': ('autor', 'idioma', 'publicado', 'fecha_pub'),
             'description': (
                 'Marca <strong>Publicado</strong> para que el artículo sea visible en la web. '
                 'La <strong>fecha de publicación</strong> aparece en el artículo y en el sitemap. '
@@ -296,6 +296,42 @@ class FAQItemAdmin(admin.ModelAdmin):
     list_editable      = ('orden', 'activo')
     search_fields      = ('pregunta', 'respuesta')
     save_on_top        = True
+
+
+# ── The Club — Galería de fotos ───────────────────────────────────
+@admin.register(ClubPhoto)
+class ClubPhotoAdmin(admin.ModelAdmin):
+    list_display       = ('orden', 'titulo_o_nombre', 'activo', 'preview')
+    list_display_links = ('titulo_o_nombre',)
+    list_editable      = ('orden', 'activo')
+    save_on_top        = True
+
+    fieldsets = (
+        ('📸  Foto', {
+            'fields': ('imagen', 'titulo', 'descripcion'),
+            'description': (
+                'Sube la foto. Una vez guardada verás la previsualización. '
+                'El <strong>Título</strong> aparece como pie de foto. '
+                'La <strong>Descripción</strong> es el texto alternativo (importante para SEO y accesibilidad).'
+            ),
+        }),
+        ('⚙️  Configuración', {
+            'fields': ('orden', 'activo'),
+        }),
+    )
+
+    @admin.display(description='Foto')
+    def titulo_o_nombre(self, obj):
+        return obj.titulo or f'Foto #{obj.orden}'
+
+    @admin.display(description='Vista previa')
+    def preview(self, obj):
+        if obj.imagen:
+            return format_html(
+                '<img src="{}" style="height:60px;border-radius:6px;object-fit:cover;" />',
+                obj.imagen.url
+            )
+        return '—'
 
 
 # ── Members ───────────────────────────────────────────────────────

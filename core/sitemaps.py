@@ -16,6 +16,8 @@ class StaticViewSitemap(Sitemap):
         ('seccion_que_hacemos',    0.8, 'monthly'),
         ('seccion_nuestro_mundo',  0.8, 'monthly'),
         ('seccion_contacto',       0.8, 'monthly'),
+        ('seccion_seville',        0.9, 'weekly'),
+        ('the_club',               0.8, 'monthly'),
     ]
 
     def items(self):

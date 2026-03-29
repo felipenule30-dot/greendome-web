@@ -175,6 +175,8 @@ class TimelineItem(models.Model):
 
 class BlogPost(models.Model):
     """Artículos del blog de Green Dome."""
+    IDIOMA_CHOICES = [('es', 'Español'), ('en', 'English'), ('it', 'Italiano')]
+
     titulo      = models.CharField(max_length=200, verbose_name='Título')
     slug        = models.SlugField(max_length=220, unique=True,
                     help_text='URL amigable (auto-generado si se deja vacío). Ej: cannabis-club-sevilla-guia')
@@ -186,6 +188,9 @@ class BlogPost(models.Model):
                     verbose_name='Imagen de portada',
                     help_text='Recomendado: 1200x630px JPG (proporción OG).')
     autor       = models.CharField(max_length=100, default='Green Dome', verbose_name='Autor')
+    idioma      = models.CharField(max_length=2, choices=IDIOMA_CHOICES, default='es',
+                    verbose_name='Idioma',
+                    help_text='Idioma del artículo. Los artículos en inglés aparecen en /cannabis-club-seville/.')
     publicado   = models.BooleanField(default=False,
                     verbose_name='Publicado',
                     help_text='Solo los artículos publicados son visibles en la web.')
@@ -252,6 +257,38 @@ class FAQItem(models.Model):
 
     def __str__(self):
         return self.pregunta
+
+
+# ── The Club — Galería de fotos ──────────────────────────────────
+
+
+class ClubPhoto(models.Model):
+    """Fotos del interior del club para la página /the-club/."""
+    imagen      = models.ImageField(
+        upload_to='club/',
+        verbose_name='Foto',
+        help_text='Sube una foto del interior. Recomendado: JPG, relación 4:3 o 16:9.',
+    )
+    titulo      = models.CharField(
+        max_length=150, blank=True,
+        verbose_name='Título / Pie de foto',
+        help_text='Opcional. Aparece debajo de la imagen en la galería.',
+    )
+    descripcion = models.CharField(
+        max_length=300, blank=True,
+        verbose_name='Descripción (alt)',
+        help_text='Texto alternativo para accesibilidad y SEO. Describe la imagen.',
+    )
+    orden       = models.PositiveSmallIntegerField(default=0, help_text='Orden de aparición (menor = primero)')
+    activo      = models.BooleanField(default=True, help_text='Desmarca para ocultar sin borrar')
+
+    class Meta:
+        verbose_name = 'Foto del club'
+        verbose_name_plural = 'The Club — Galería de fotos'
+        ordering = ['orden']
+
+    def __str__(self):
+        return self.titulo or f'Foto {self.orden}'
 
 
 # ── Registro de miembros ─────────────────────────────────────────

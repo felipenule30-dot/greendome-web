@@ -11,6 +11,10 @@ urlpatterns = [
     path('nuestro-mundo/',         views.seccion_nuestro_mundo,  name='seccion_nuestro_mundo'),
     path('contacto/',              views.seccion_contacto,       name='seccion_contacto'),
 
+    # ── Secciones extra ──────────────────────────────────────────
+    path('cannabis-club-seville/', views.seccion_seville,        name='seccion_seville'),
+    path('the-club/',              views.the_club,               name='the_club'),
+
     # ── FAQ ──────────────────────────────────────────────────────
     path('faq/',                   views.faq,                    name='faq'),
 
