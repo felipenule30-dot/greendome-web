@@ -1,14 +1,18 @@
+from datetime import datetime, timezone
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 from .models import BlogPost
+
+# Fecha de la última actualización significativa del sitio
+_SITE_UPDATED = datetime(2026, 3, 29, tzinfo=timezone.utc)
 
 
 class StaticViewSitemap(Sitemap):
     """Páginas estáticas + secciones con slug propio."""
     protocol = 'https'
 
+    # (name, priority, changefreq)
     PAGES = [
-        # (name, priority, changefreq)
         ('home',                   1.0, 'weekly'),
         ('faq',                    0.9, 'monthly'),
         ('blog_list',              0.9, 'daily'),
@@ -17,7 +21,7 @@ class StaticViewSitemap(Sitemap):
         ('seccion_nuestro_mundo',  0.8, 'monthly'),
         ('seccion_contacto',       0.8, 'monthly'),
         ('seccion_seville',        0.9, 'weekly'),
-        ('the_club',               0.8, 'monthly'),
+        ('the_club',               0.8, 'weekly'),
     ]
 
     def items(self):
@@ -32,12 +36,15 @@ class StaticViewSitemap(Sitemap):
     def changefreq(self, item):
         return item[2]
 
+    def lastmod(self, item):
+        return _SITE_UPDATED
+
 
 class BlogSitemap(Sitemap):
     """Artículos del blog publicados."""
-    protocol    = 'https'
-    changefreq  = 'monthly'
-    priority    = 0.7
+    protocol   = 'https'
+    changefreq = 'monthly'
+    priority   = 0.7
 
     def items(self):
         return BlogPost.objects.filter(publicado=True)
