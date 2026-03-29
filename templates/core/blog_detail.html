@@ -44,7 +44,7 @@ function gdAgeYes(){
 function gdAgeNo(){ window.location.href='/acceso-denegado/'; }
 </script>
 
-{# JSON-LD: Article + BreadcrumbList #}
+{# JSON-LD: BlogPosting + BreadcrumbList #}
 <script type="application/ld+json">
 [
 {
@@ -58,19 +58,57 @@ function gdAgeNo(){ window.location.href='/acceso-denegado/'; }
 },
 {
   "@context": "https://schema.org",
-  "@type": "Article",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://greendome.net{{ post.get_absolute_url }}"
+  },
   "headline": "{{ post.titulo|escapejs }}",
   "description": "{{ post.resumen|escapejs }}",
-  "author": {"@type":"Person","name":"{{ post.autor|escapejs }}","url":"https://greendome.net/cannabis-club-sevilla/"},
+  "image": {% if post.imagen %}{
+    "@type": "ImageObject",
+    "url": "https://greendome.net{{ post.imagen.url }}",
+    "width": 1200,
+    "height": 630
+  }{% else %}{
+    "@type": "ImageObject",
+    "url": "https://greendome.net{% static 'img/og-image.jpg' %}",
+    "width": 1200,
+    "height": 630
+  }{% endif %},
+  "author": {
+    "@type": "Organization",
+    "name": "Green Dome",
+    "url": "https://greendome.net/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://greendome.net{% static 'img/logo.svg' %}"
+    }
+  },
   "publisher": {
     "@type": "Organization",
     "name": "Green Dome",
-    "logo": {"@type":"ImageObject","url":"https://greendome.net{% static 'img/logo.svg' %}"}
+    "url": "https://greendome.net/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://greendome.net{% static 'img/logo.svg' %}",
+      "width": 200,
+      "height": 60
+    }
   },
   "datePublished": "{{ post.fecha_pub|date:'c' }}",
   "dateModified": "{{ post.actualizado|date:'c' }}",
-  "url": "https://greendome.net{{ post.get_absolute_url }}"{% if post.imagen %},
-  "image": "https://greendome.net{{ post.imagen.url }}"{% endif %}
+  "url": "https://greendome.net{{ post.get_absolute_url }}",
+  "inLanguage": "{% if post.idioma == 'en' %}en{% elif post.idioma == 'it' %}it{% else %}es{% endif %}",
+  "isPartOf": {
+    "@type": "Blog",
+    "name": "Green Dome Blog",
+    "url": "https://greendome.net/blog/"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "Cannabis Social Club Sevilla"
+  }
 }
 ]
 </script>
