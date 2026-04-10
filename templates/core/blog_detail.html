@@ -11,6 +11,10 @@
 {% block og_image %}{% if post.imagen %}https://greendome.net{{ post.imagen.url }}{% else %}https://greendome.net{% static 'img/og-image.jpg' %}{% endif %}{% endblock %}
 {% block tw_image %}{% if post.imagen %}https://greendome.net{{ post.imagen.url }}{% else %}https://greendome.net{% static 'img/og-image.jpg' %}{% endif %}{% endblock %}
 {% block og_url %}https://greendome.net{{ post.get_absolute_url }}{% endblock %}
+{% block hreflang %}
+<link rel="alternate" hreflang="{% if post.idioma == 'en' %}en{% elif post.idioma == 'it' %}it{% else %}es{% endif %}" href="https://greendome.net{{ post.get_absolute_url }}" />
+<link rel="alternate" hreflang="x-default" href="https://greendome.net/blog/" />
+{% endblock %}
 
 {% block body %}
 

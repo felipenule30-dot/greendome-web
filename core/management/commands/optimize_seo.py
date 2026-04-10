@@ -36,12 +36,13 @@ KEYWORD_SETS = [
         "club cannabis sevilla, green dome sevilla, asociacion canabica sevilla, "
         "canabis sevilla, social club sevilla, club cannábico nervión"
     ),
-    # Set 3 — Foco: comparativas / tipo de negocio
+    # Set 3 — Foco: consumo responsable / cultura
     (
-        "tienda cannabis sevilla, dispensario cannabis sevilla, "
-        "dónde comprar cannabis sevilla, cbd sevilla, club cbd sevilla, "
-        "asociación cbd sevilla, cannabis legal sevilla, cannabis recreativo sevilla, "
-        "consumo responsable sevilla, cultura cannabis andalucía"
+        "consumo responsable cannabis sevilla, cultura cannabis sevilla, "
+        "club cannabis privado sevilla, asociación privada cannabis sevilla, "
+        "cannabis social club sevilla, comunidad cannabis nervión, "
+        "club cannábico sin ánimo de lucro sevilla, cannabis andalucía cultura, "
+        "cannabis legal modelo asociativo, asociación cannábica nervión sevilla"
     ),
     # Set 4 — Foco: localización barrio
     (
@@ -71,12 +72,12 @@ KEYWORD_SETS = [
         "cannabis association seville, private cannabis club seville, "
         "where to find weed seville, cannabis nervión seville"
     ),
-    # Set 8 — Foco: variantes ortográficas (errores comunes)
+    # Set 8 — Foco: búsquedas informales sin errores
     (
-        "asociacion canabica sevilla, club canabico sevilla, canabis nervion, "
-        "hierba sevilla, weed store sevilla, marihuana nervion, "
-        "asociacion marihuana sevilla, club marihuana sevilla, "
-        "green dome sevilla instagram, greendome sevilla"
+        "hierba sevilla, weed sevilla, marihuana sevilla, "
+        "club privado cannabis sevilla, asociacion cannabis sevilla, "
+        "cannabis nervion sevilla, green dome sevilla instagram, "
+        "greendome sevilla, la cupula verde sevilla, greendome svq"
     ),
 ]
 
@@ -115,61 +116,6 @@ DESCRIPTION_VARIANTS = [
     ),
 ]
 
-FAQ_SETS = [
-    [
-        {
-            "q": "¿Qué es Green Dome?",
-            "a": (
-                "Green Dome es una asociación cannábica sin ánimo de lucro en Sevilla (Nervión). "
-                "Es un club social privado donde la cultura, el conocimiento y el consumo "
-                "responsable son los pilares. Abierto desde noviembre de 2025."
-            ),
-        },
-        {
-            "q": "¿Dónde está el club cannábico Green Dome en Sevilla?",
-            "a": (
-                "Green Dome se encuentra en el barrio de Nervión, Sevilla. "
-                "Al ser un club privado la dirección exacta se facilita a socios. "
-                "Contáctanos por email lacupulaverdesv@gmail.com o Instagram @greendome_svq."
-            ),
-        },
-        {
-            "q": "¿Cómo me hago socio de un club cannábico en Sevilla?",
-            "a": (
-                "Para unirte a Green Dome, el club cannábico de Sevilla Nervión, "
-                "contacta por el formulario web, email lacupulaverdesv@gmail.com "
-                "o Instagram @greendome_svq. Acceso exclusivo para mayores de 18 años."
-            ),
-        },
-    ],
-    [
-        {
-            "q": "¿Es legal un club cannábico en España?",
-            "a": (
-                "Las asociaciones cannábicas en España operan bajo el modelo asociativo "
-                "sin ánimo de lucro en un marco legal de consumo privado entre socios adultos. "
-                "Green Dome es una asociación legalmente constituida en Sevilla."
-            ),
-        },
-        {
-            "q": "¿Qué diferencia hay entre una tienda de cannabis y un club cannábico?",
-            "a": (
-                "Un club cannábico como Green Dome no es una tienda: es una asociación privada "
-                "sin ánimo de lucro donde los socios comparten cultura, conocimiento "
-                "y consumo responsable. No vendemos nada al público general."
-            ),
-        },
-        {
-            "q": "¿Dónde encontrar cannabis en Sevilla?",
-            "a": (
-                "Green Dome es una asociación cannábica privada en el barrio de Nervión, Sevilla. "
-                "No somos una tienda pública — somos una comunidad. "
-                "Contacta con nosotros para más información sobre cómo ser socio."
-            ),
-        },
-    ],
-]
-
 
 class Command(BaseCommand):
     help = "Optimiza y rota las keywords SEO de Green Dome diariamente"
@@ -185,13 +131,12 @@ class Command(BaseCommand):
         keywords   = KEYWORD_SETS[day_of_year % len(KEYWORD_SETS)]
         title      = TITLE_VARIANTS[day_of_year % len(TITLE_VARIANTS)]
         desc       = DESCRIPTION_VARIANTS[day_of_year % len(DESCRIPTION_VARIANTS)]
-        faq_set    = FAQ_SETS[day_of_year % len(FAQ_SETS)]
 
         # Guardamos en SiteConfig para que la vista los use
+        # La FAQPage es estática en home.html (no se rota — evita inconsistencias en rastreo)
         cfg.seo_keywords    = keywords
         cfg.seo_title       = title
         cfg.seo_description = desc
-        cfg.seo_faq_json    = self._build_faq_json(faq_set)
         cfg.seo_updated_at  = timezone.now()
         cfg.save()
 
@@ -200,20 +145,3 @@ class Command(BaseCommand):
             f"   Title: {title[:60]}...\n"
             f"   Keywords: {keywords[:80]}..."
         ))
-
-    @staticmethod
-    def _build_faq_json(faq_set):
-        import json
-        items = [
-            {
-                "@type": "Question",
-                "name": f["q"],
-                "acceptedAnswer": {"@type": "Answer", "text": f["a"]},
-            }
-            for f in faq_set
-        ]
-        return json.dumps({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            "mainEntity": items,
-        }, ensure_ascii=False)
