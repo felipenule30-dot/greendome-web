@@ -2062,3 +2062,151 @@ body:has(.stat-card:hover) .cursor-ring {
   cursor: pointer;
   line-height: 1;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   BLOG CONTENT — Responsive & Performance
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Contenedor raíz del artículo */
+.blog-content {
+  overflow-x: hidden;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Imágenes dentro del artículo */
+.blog-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin: 1.5rem 0;
+  display: block;
+}
+
+/* Tablas responsive — scroll horizontal en mobile */
+.blog-content table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-collapse: collapse;
+  margin: 2rem 0;
+}
+
+/* Blockquotes — no se salen del viewport */
+.blog-content blockquote {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+/* Links — no rompen layout en URLs largas */
+.blog-content a {
+  word-break: break-all;
+}
+
+/* Listas */
+.blog-content ul,
+.blog-content ol {
+  padding-left: 1.4rem;
+}
+
+/* ── Performance: content-visibility en secciones off-screen ── */
+.about-section,
+.mundo-section,
+.personas-section,
+.hacemos-section,
+.faq-section,
+.blog-preview-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 600px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE EXTRA — 480px y 380px
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 480px) {
+  /* Stat cards — columna única en teléfonos pequeños */
+  .about-stats { grid-template-columns: 1fr; }
+
+  /* CTA del hero — ancho completo para facilitar toque */
+  .hero-cta {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* Botones de mapa en columna */
+  .mapa-actions { flex-direction: column; }
+  .mapa-btn { flex: unset; width: 100%; }
+
+  /* Map más pequeño en teléfonos */
+  .mapa-wrapper { height: 240px; }
+
+  /* Review card — ajuste de padding */
+  .review-card { padding: 1rem 1.1rem; }
+  .review-card-actions { flex-direction: column; }
+  .review-copy-btn,
+  .review-write-btn { width: 100%; justify-content: center; }
+
+  /* Blog sharing buttons */
+  .blog-share-row { flex-direction: column; }
+
+  /* Nav hamburger — área táctil mínima 44px */
+  .nav-hamburger {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 380px) {
+  /* Sección stats — aseguramos que no overflow */
+  .stat-card { padding: 1.4rem 1rem; }
+
+  /* Título hero más pequeño */
+  .section-title { font-size: 2rem; }
+
+  /* Persona cards en el carousel — más estrechas */
+  .persona-card { width: 260px; }
+
+  /* Gallery en 1 columna en teléfonos muy pequeños */
+  .club-gallery { grid-template-columns: 1fr; }
+  .club-photo-card:nth-child(7n+1) { grid-column: span 1; aspect-ratio: 16/9; }
+
+  /* Map mínimo */
+  .mapa-wrapper { height: 200px; }
+}
+
+/* ── Touch: eliminar cursor personalizado en móvil ── */
+@media (hover: none) and (pointer: coarse) {
+  .cursor-dot,
+  .cursor-ring { display: none !important; }
+
+  body { cursor: auto; }
+}
+
+/* ── Imágenes media del blog en mobile ── */
+@media (max-width: 640px) {
+  .blog-content table th,
+  .blog-content table td {
+    min-width: 100px;
+    font-size: .85rem;
+    padding: .55rem .7rem;
+  }
+
+  /* Share buttons del blog en columna */
+  .blog-content + div [href*="wa.me"],
+  .blog-content + div [href*="twitter"],
+  .blog-content + div [href*="facebook"] {
+    font-size: .75rem;
+  }
+}
+
+/* ── Iframe maps — fluidez garantizada ── */
+.mapa-wrapper iframe {
+  width: 100% !important;
+  height: 100% !important;
+  position: relative;
+  display: block;
+}

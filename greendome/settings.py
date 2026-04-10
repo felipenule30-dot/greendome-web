@@ -157,6 +157,27 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # ---------------------------------------------------------------------------
+# Cache
+# ---------------------------------------------------------------------------
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'greendome-cache',
+        'TIMEOUT': 3600,        # 1 hora
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000,
+        },
+    }
+}
+
+# Cache de vistas completas (home, blog list)
+CACHE_MIDDLEWARE_ALIAS  = 'default'
+CACHE_MIDDLEWARE_SECONDS = 600   # 10 min para páginas públicas
+CACHE_MIDDLEWARE_KEY_PREFIX = 'gd'
+
+
+# ---------------------------------------------------------------------------
 # Default primary key field type
 # ---------------------------------------------------------------------------
 
