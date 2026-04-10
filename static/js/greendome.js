@@ -20,7 +20,7 @@
     mouseY = e.clientY;
     dot.style.left = mouseX + 'px';
     dot.style.top  = mouseY + 'px';
-  });
+  }, { passive: true });
 
   (function animateRing() {
     ringX += (mouseX - ringX) * 0.12;
@@ -212,14 +212,23 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   const btn = document.querySelector('.hero-cta');
   if (!btn || 'ontouchstart' in window) return;
 
+  let rafCTA = null;
+  let cxCTA = 0, cyCTA = 0;
+
   btn.addEventListener('mousemove', e => {
     const r  = btn.getBoundingClientRect();
-    const dx = (e.clientX - (r.left + r.width  / 2)) * 0.28;
-    const dy = (e.clientY - (r.top  + r.height / 2)) * 0.28;
-    btn.style.transitionDuration = '0s';
-    btn.style.transform = `translateY(-4px) scale(1.05) translate(${dx.toFixed(1)}px,${dy.toFixed(1)}px)`;
-  });
+    cxCTA = (e.clientX - (r.left + r.width  / 2)) * 0.28;
+    cyCTA = (e.clientY - (r.top  + r.height / 2)) * 0.28;
+    if (!rafCTA) {
+      rafCTA = requestAnimationFrame(() => {
+        btn.style.transitionDuration = '0s';
+        btn.style.transform = `translateY(-4px) scale(1.05) translate(${cxCTA.toFixed(1)}px,${cyCTA.toFixed(1)}px)`;
+        rafCTA = null;
+      });
+    }
+  }, { passive: true });
   btn.addEventListener('mouseleave', () => {
+    if (rafCTA) { cancelAnimationFrame(rafCTA); rafCTA = null; }
     btn.style.transitionDuration = '';
     btn.style.transform = '';
   });
@@ -235,13 +244,18 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       // Desactiva transition de transform para respuesta instantánea
       card.style.transition = 'box-shadow .4s ease';
     });
+    let rafTilt = null;
     card.addEventListener('mousemove', e => {
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width  - 0.5;
-      const y = (e.clientY - r.top)  / r.height - 0.5;
-      card.style.transform =
-        `perspective(700px) translateY(-8px) scale(1.015) rotateX(${(-y * 7).toFixed(2)}deg) rotateY(${(x * 7).toFixed(2)}deg)`;
-    });
+      if (rafTilt) return;
+      rafTilt = requestAnimationFrame(() => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width  - 0.5;
+        const y = (e.clientY - r.top)  / r.height - 0.5;
+        card.style.transform =
+          `perspective(700px) translateY(-8px) scale(1.015) rotateX(${(-y * 7).toFixed(2)}deg) rotateY(${(x * 7).toFixed(2)}deg)`;
+        rafTilt = null;
+      });
+    }, { passive: true });
     card.addEventListener('mouseleave', () => {
       // Restaura spring para el regreso
       card.style.transition = 'transform .5s cubic-bezier(0.34,1.56,0.64,1), box-shadow .4s ease';

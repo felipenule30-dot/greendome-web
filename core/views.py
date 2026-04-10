@@ -2,6 +2,7 @@ import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
+from django.views.decorators.cache import cache_page
 from .models import Member, SiteConfig, Personaje, MundoCard, Actividad, TimelineItem, BlogPost, BlogImage, FAQItem, ClubPhoto
 
 
@@ -25,6 +26,7 @@ def access_denied(request):
     return render(request, 'core/access_denied.html', status=403)
 
 
+@cache_page(600)
 def home(request):
     """Página principal — age gate gestionado por JavaScript en el cliente."""
     ctx = {
@@ -39,6 +41,7 @@ def home(request):
 
 # ── Secciones con slug propio ─────────────────────────────────────
 
+@cache_page(600)
 def seccion_sobre_nosotros(request):
     """Página /cannabis-club-sevilla/ — sección Quiénes Somos."""
     ctx = {
@@ -49,6 +52,7 @@ def seccion_sobre_nosotros(request):
     return render(request, 'core/seccion_sobre_nosotros.html', ctx)
 
 
+@cache_page(600)
 def seccion_que_hacemos(request):
     """Página /que-hacemos/ — sección Qué Hacemos."""
     ctx = {
@@ -58,6 +62,7 @@ def seccion_que_hacemos(request):
     return render(request, 'core/seccion_que_hacemos.html', ctx)
 
 
+@cache_page(600)
 def seccion_nuestro_mundo(request):
     """Página /nuestro-mundo/ — sección Nuestro Mundo."""
     ctx = {
@@ -67,6 +72,7 @@ def seccion_nuestro_mundo(request):
     return render(request, 'core/seccion_nuestro_mundo.html', ctx)
 
 
+@cache_page(600)
 def seccion_contacto(request):
     """Página /contacto/ — sección Contacto."""
     ctx = {'config': SiteConfig.load()}
@@ -75,6 +81,7 @@ def seccion_contacto(request):
 
 # ── FAQ ───────────────────────────────────────────────────────────
 
+@cache_page(600)
 def faq(request):
     """Página /faq/ — preguntas frecuentes completas."""
     ctx = {
@@ -86,6 +93,7 @@ def faq(request):
 
 # ── Blog ──────────────────────────────────────────────────────────
 
+@cache_page(300)
 def blog_list(request):
     """Página /blog/ — listado de artículos."""
     ctx = {
@@ -95,22 +103,24 @@ def blog_list(request):
     return render(request, 'core/blog_list.html', ctx)
 
 
+@cache_page(3600)
 def blog_detail(request, slug):
     """Página /blog/<slug>/ — artículo individual."""
-    post     = get_object_or_404(BlogPost, slug=slug, publicado=True)
+    post      = get_object_or_404(BlogPost, slug=slug, publicado=True)
     recientes = BlogPost.objects.filter(publicado=True).exclude(pk=post.pk)[:3]
-    imagenes  = post.imagenes.all()
+    imagenes  = post.imagenes.prefetch_related().all()
     ctx = {
-        'config':   SiteConfig.load(),
-        'post':     post,
+        'config':    SiteConfig.load(),
+        'post':      post,
         'recientes': recientes,
-        'imagenes': imagenes,
+        'imagenes':  imagenes,
     }
     return render(request, 'core/blog_detail.html', ctx)
 
 
 # ── Cannabis Club Seville (English page) ──────────────────────────
 
+@cache_page(600)
 def seccion_seville(request):
     """Página /cannabis-club-seville/ — versión en inglés."""
     ctx = {
@@ -122,6 +132,7 @@ def seccion_seville(request):
 
 # ── The Club — galería de fotos ────────────────────────────────────
 
+@cache_page(600)
 def the_club(request):
     """Página /the-club/ — galería de fotos del interior."""
     ctx = {

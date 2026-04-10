@@ -85,10 +85,17 @@ class SiteConfig(models.Model):
     def save(self, *args, **kwargs):
         self.pk = 1  # singleton
         super().save(*args, **kwargs)
+        # Invalida cache al guardar desde admin
+        from django.core.cache import cache
+        cache.delete('siteconfig_singleton')
 
     @classmethod
     def load(cls):
-        obj, _ = cls.objects.get_or_create(pk=1)
+        from django.core.cache import cache
+        obj = cache.get('siteconfig_singleton')
+        if obj is None:
+            obj, _ = cls.objects.get_or_create(pk=1)
+            cache.set('siteconfig_singleton', obj, 3600)
         return obj
 
 
