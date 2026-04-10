@@ -80,15 +80,17 @@ function gdAgeNo(){ window.location.href='/acceso-denegado/'; }
     "width": 1200,
     "height": 630
   }{% endif %},
-  "author": {
-    "@type": "Organization",
-    "name": "Green Dome",
-    "url": "https://greendome.net/",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://greendome.net{% static 'img/logo.svg' %}"
+  "author": [
+    {
+      "@type": "Person",
+      "name": "{{ post.autor|escapejs }}"
+    },
+    {
+      "@type": "Organization",
+      "name": "Green Dome",
+      "url": "https://greendome.net/"
     }
-  },
+  ],
   "publisher": {
     "@type": "Organization",
     "name": "Green Dome",

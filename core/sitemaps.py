@@ -1,10 +1,10 @@
 from datetime import datetime, timezone
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
-from .models import BlogPost
+from .models import BlogPost, SiteConfig
 
 # Fecha de la última actualización significativa del sitio
-_SITE_UPDATED = datetime(2026, 3, 29, tzinfo=timezone.utc)
+_SITE_UPDATED = datetime(2026, 4, 10, tzinfo=timezone.utc)
 
 
 class StaticViewSitemap(Sitemap):
@@ -37,6 +37,12 @@ class StaticViewSitemap(Sitemap):
         return item[2]
 
     def lastmod(self, item):
+        try:
+            cfg = SiteConfig.load()
+            if cfg.seo_updated_at:
+                return cfg.seo_updated_at
+        except Exception:
+            pass
         return _SITE_UPDATED
 
 

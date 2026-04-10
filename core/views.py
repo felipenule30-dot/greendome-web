@@ -108,7 +108,7 @@ def blog_detail(request, slug):
     """Página /blog/<slug>/ — artículo individual."""
     post      = get_object_or_404(BlogPost, slug=slug, publicado=True)
     recientes = BlogPost.objects.filter(publicado=True).exclude(pk=post.pk)[:3]
-    imagenes  = post.imagenes.prefetch_related().all()
+    imagenes  = post.imagenes.all()
     ctx = {
         'config':    SiteConfig.load(),
         'post':      post,
