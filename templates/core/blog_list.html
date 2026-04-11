@@ -45,8 +45,9 @@ function gdAgeYes(){
 function gdAgeNo(){ window.location.href='/acceso-denegado/'; }
 </script>
 
-{# JSON-LD: BreadcrumbList + Blog #}
+{# JSON-LD: BreadcrumbList + CollectionPage #}
 <script type="application/ld+json">
+[
 {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -54,7 +55,32 @@ function gdAgeNo(){ window.location.href='/acceso-denegado/'; }
     {"@type":"ListItem","position":1,"name":"Inicio","item":"https://greendome.net/"},
     {"@type":"ListItem","position":2,"name":"Blog","item":"https://greendome.net/blog/"}
   ]
+},
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Blog Green Dome — Cannabis Club Sevilla",
+  "description": "Artículos sobre cultura cannábica, autocultivo, salud y comunidad desde el cannabis social club privado de referencia en Sevilla, Nervión.",
+  "url": "https://greendome.net/blog/",
+  "inLanguage": "es",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Green Dome",
+    "url": "https://greendome.net/"
+  },
+  "hasPart": [
+    {% for post in posts %}
+    {
+      "@type": "BlogPosting",
+      "headline": "{{ post.titulo|escapejs }}",
+      "url": "https://greendome.net{{ post.get_absolute_url }}",
+      "datePublished": "{{ post.fecha_pub|date:'c' }}",
+      "author": {"@type": "Person", "name": "{{ post.autor|escapejs }}"}
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ]
 }
+]
 </script>
 
 {# ─── NAV ─── #}

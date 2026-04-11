@@ -12,8 +12,17 @@
   const ring = document.getElementById('cursorRing');
   if (!dot || !ring) return;
 
+  // Hide on touch devices or reduced-motion
+  if ('ontouchstart' in window || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    dot.style.display  = 'none';
+    ring.style.display = 'none';
+    document.body.style.cursor = 'auto';
+    return;
+  }
+
   let mouseX = 0, mouseY = 0;
   let ringX  = 0, ringY  = 0;
+  let rafRing = null, ringActive = true;
 
   document.addEventListener('mousemove', e => {
     mouseX = e.clientX;
@@ -22,20 +31,21 @@
     dot.style.top  = mouseY + 'px';
   }, { passive: true });
 
-  (function animateRing() {
+  function animateRing() {
+    if (!ringActive) return;
     ringX += (mouseX - ringX) * 0.12;
     ringY += (mouseY - ringY) * 0.12;
     ring.style.left = ringX + 'px';
     ring.style.top  = ringY + 'px';
-    requestAnimationFrame(animateRing);
-  })();
-
-  // Hide on touch devices
-  if ('ontouchstart' in window) {
-    dot.style.display  = 'none';
-    ring.style.display = 'none';
-    document.body.style.cursor = 'auto';
+    rafRing = requestAnimationFrame(animateRing);
   }
+  animateRing();
+
+  document.addEventListener('visibilitychange', () => {
+    ringActive = !document.hidden;
+    if (ringActive) animateRing();
+    else if (rafRing) { cancelAnimationFrame(rafRing); rafRing = null; }
+  });
 })();
 
 /* ── Nav Scroll Effect ─────────────────────────────────────── */
@@ -74,6 +84,12 @@
   const els = document.querySelectorAll(selectors);
   if (!els.length) return;
 
+  // Skip animations on reduced-motion — just show all
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    els.forEach(el => el.classList.add('visible'));
+    return;
+  }
+
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -81,10 +97,10 @@
         io.unobserve(e.target);
       }
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
 
   els.forEach((el, i) => {
-    el.style.transitionDelay = (i % 5) * 0.08 + 's';
+    el.style.transitionDelay = Math.min(i * 0.05, 0.4) + 's';
     io.observe(el);
   });
 })();
@@ -93,6 +109,12 @@
 (function initHeroParticles() {
   const canvas = document.getElementById('heroParticles');
   if (!canvas) return;
+
+  // Respect prefers-reduced-motion
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    canvas.style.display = 'none';
+    return;
+  }
 
   const ctx = canvas.getContext('2d');
   let W, H, particles;
@@ -103,7 +125,8 @@
     '#7ed957', '#5b3080', '#9060c0',
     '#c9a84c',
   ];
-  const COUNT = window.innerWidth < 600 ? 45 : 90;
+  const lowMem = navigator.deviceMemory && navigator.deviceMemory < 4;
+  const COUNT = window.innerWidth < 600 ? (lowMem ? 20 : 40) : (lowMem ? 40 : 80);
 
   function resize() {
     W = canvas.width  = canvas.offsetWidth;
@@ -270,6 +293,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   const blob = document.querySelector('.hero-blob');
   const hero = document.querySelector('.hero');
   if (!blob || !hero || 'ontouchstart' in window) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   let tx = 0, ty = 0, cx = 0, cy = 0, raf, visible = false;
 

@@ -57,7 +57,7 @@ function gdAgeNo(){ window.location.href='/acceso-denegado/'; }
   "itemListElement": [
     {"@type":"ListItem","position":1,"name":"Inicio","item":"https://greendome.net/"},
     {"@type":"ListItem","position":2,"name":"Blog","item":"https://greendome.net/blog/"},
-    {"@type":"ListItem","position":3,"name":"{{ post.titulo|escapejs }}","item":"https://greendome.net{{ post.get_absolute_url }}"}
+    {"@type":"ListItem","position":3,"name":"{{ post.titulo|escapejs }}","item":"https://greendome.net{{ post.get_absolute_url }}","@id":"https://greendome.net{{ post.get_absolute_url }}"}
   ]
 },
 {
@@ -114,7 +114,8 @@ function gdAgeNo(){ window.location.href='/acceso-denegado/'; }
   "about": {
     "@type": "Thing",
     "name": "Cannabis Social Club Sevilla"
-  }
+  },
+  "articleBody": "{{ post.resumen|escapejs }} {{ post.contenido|striptags|escapejs|truncatewords:300 }}"
 }
 ]
 </script>

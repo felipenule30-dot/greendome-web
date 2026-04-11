@@ -321,7 +321,7 @@ function gdAgeNo(){
       {# Fallback — El Dome hardcoded si BD vacía #}
       <div class="persona-card persona-card--img reveal" data-accent="#7ed957">
         <div class="persona-img-wrap" style="background: radial-gradient(circle at 60% 30%, #5b3080, #2d1a45)">
-          <img src="{% static 'img/mascot-main.png' %}" alt="El Dome" class="persona-img" onerror="this.parentElement.innerHTML='<span class=persona-emoji>🌿</span>'" />
+          <img src="{% static 'img/mascot-main.png' %}" alt="El Dome" class="persona-img" loading="lazy" decoding="async" onerror="this.parentElement.innerHTML='<span class=persona-emoji>🌿</span>'" />
         </div>
         <div class="persona-info">
           <span class="persona-tag" style="background:var(--green-bright);color:var(--purple-deep)">Mascota</span>
@@ -334,7 +334,7 @@ function gdAgeNo(){
       {# 2 — El Fundador #}
       <div class="persona-card persona-card--img reveal" data-accent="#c9a84c">
         <div class="persona-img-wrap" style="background: radial-gradient(circle at 40% 30%, #1a4a0e, #0d0a14)">
-          <img src="{% static 'img/char-fundador.png' %}" alt="El Fundador" class="persona-img" onerror="this.parentElement.innerHTML='<span class=persona-emoji>🧙</span>'" />
+          <img src="{% static 'img/char-fundador.png' %}" alt="El Fundador" class="persona-img" loading="lazy" decoding="async" onerror="this.parentElement.innerHTML='<span class=persona-emoji>🧙</span>'" />
         </div>
         <div class="persona-info">
           <span class="persona-tag" style="background:var(--gold);color:var(--purple-deep)">Fundador</span>
@@ -347,7 +347,7 @@ function gdAgeNo(){
       {# 3 — El Sabio #}
       <div class="persona-card persona-card--img reveal" data-accent="#5db845">
         <div class="persona-img-wrap" style="background: radial-gradient(circle at 50% 20%, #3d2565, #1a0d2e)">
-          <img src="{% static 'img/char-sabio.png' %}" alt="El Sabio" class="persona-img persona-img--right" onerror="this.parentElement.innerHTML='<span class=persona-emoji>🦯</span>'" />
+          <img src="{% static 'img/char-sabio.png' %}" alt="El Sabio" class="persona-img persona-img--right" loading="lazy" decoding="async" onerror="this.parentElement.innerHTML='<span class=persona-emoji>🦯</span>'" />
         </div>
         <div class="persona-info">
           <span class="persona-tag" style="background:#5db845;color:#0d0a14">Veterano</span>
@@ -360,7 +360,7 @@ function gdAgeNo(){
       {# 4 — El Social #}
       <div class="persona-card persona-card--img reveal" data-accent="#fd1d1d">
         <div class="persona-img-wrap" style="background: radial-gradient(circle at 50% 30%, #0d3b2e, #061a14)">
-          <img src="{% static 'img/char-social.png' %}" alt="El Social" class="persona-img" onerror="this.parentElement.innerHTML='<span class=persona-emoji>😁</span>'" />
+          <img src="{% static 'img/char-social.png' %}" alt="El Social" class="persona-img" loading="lazy" decoding="async" onerror="this.parentElement.innerHTML='<span class=persona-emoji>😁</span>'" />
         </div>
         <div class="persona-info">
           <span class="persona-tag" style="background:#e05c5c;color:#fff">Comunidad</span>
@@ -373,7 +373,7 @@ function gdAgeNo(){
       {# 5 — El Zen #}
       <div class="persona-card persona-card--img reveal" data-accent="#7b68ee">
         <div class="persona-img-wrap" style="background: radial-gradient(circle at 50% 30%, #2d1a45, #0d0a14)">
-          <img src="{% static 'img/char-zen.png' %}" alt="El Zen" class="persona-img" onerror="this.parentElement.innerHTML='<span class=persona-emoji>😌</span>'" />
+          <img src="{% static 'img/char-zen.png' %}" alt="El Zen" class="persona-img" loading="lazy" decoding="async" onerror="this.parentElement.innerHTML='<span class=persona-emoji>😌</span>'" />
         </div>
         <div class="persona-info">
           <span class="persona-tag" style="background:#7b68ee;color:#fff">Filosofía</span>
@@ -386,7 +386,7 @@ function gdAgeNo(){
       {# 6 — El Artesano #}
       <div class="persona-card persona-card--img reveal" data-accent="#c9a84c">
         <div class="persona-img-wrap" style="background: radial-gradient(circle at 50% 20%, #0d3b2e, #061a14)">
-          <img src="{% static 'img/char-artesano.png' %}" alt="El Artesano" class="persona-img" onerror="this.parentElement.innerHTML='<span class=persona-emoji>🛠️</span>'" />
+          <img src="{% static 'img/char-artesano.png' %}" alt="El Artesano" class="persona-img" loading="lazy" decoding="async" onerror="this.parentElement.innerHTML='<span class=persona-emoji>🛠️</span>'" />
         </div>
         <div class="persona-info">
           <span class="persona-tag" style="background:var(--gold);color:var(--purple-deep)">Oficio</span>
@@ -420,7 +420,7 @@ function gdAgeNo(){
       <div class="mundo-card {{ card.color_class }} reveal">
         {% if card.imagen %}
           <div class="card-media">
-            <img src="{{ card.imagen.url }}" alt="{{ card.titulo }}" class="card-img" loading="lazy" />
+            <img src="{{ card.imagen.url }}" alt="{{ card.titulo }}" class="card-img" loading="lazy" decoding="async" />
           </div>
         {% else %}
           <div class="card-icon">{{ card.icono }}</div>

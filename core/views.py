@@ -81,7 +81,7 @@ def seccion_contacto(request):
 
 # ── FAQ ───────────────────────────────────────────────────────────
 
-@cache_page(600)
+@cache_page(3600)
 def faq(request):
     """Página /faq/ — preguntas frecuentes completas."""
     ctx = {
